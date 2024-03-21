@@ -1,14 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './src/navigation/AppNavigator';
+import AuthNavigator from './src/navigation/AuthNavigator';
+import firebase from './src/config/firebaseConfig'
+
+
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+// Listen to the Firebase Auth state and set the user status
+React.useEffect(() => {
+  const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    setIsAuthenticated(!!user);
+  });
+  return unsubscribe; // Unsubscribe on unmount
+}, []);
+
+return (
+  <NavigationContainer>
+    {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
+  </NavigationContainer>
+);
+};
+
+
 
 const styles = StyleSheet.create({
   container: {
