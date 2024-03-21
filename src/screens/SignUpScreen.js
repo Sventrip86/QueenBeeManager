@@ -1,16 +1,33 @@
 import React, {useState} from "react";
 import { Text, View, TextInput, StyleSheet, Button } from "react-native";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { FIREBASE_AUTH } from "../config/firebaseConfig";
+import { useNavigation } from "@react-navigation/native";
+
 
 
 const SignUpScreen = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const navigation = useNavigation();
 
 
-const handleSignUp = () => {
-    
-}
+    const handleSignUp = async () => {
+        try {
+          if (email !== '' && password !== '') {
+            await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
+            // Handle successful signup, like showing a welcome message or redirecting to login
+          } else {
+            // Handle error, like showing a message that email and password are required
+          }
+        } catch (error) {
+          // Handle any other error, such as email already in use
+          console.error(error.message);
+          // Optionally, display an error message to the user
+        }
+      };
+      
 
 
     return(

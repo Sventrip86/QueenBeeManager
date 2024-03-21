@@ -10,7 +10,7 @@ const AuthNavigator = () => {
     return(
         <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name='Login' component={LoginScreen} />
-            <Stack.Screen name='SignUp' component={SignUpScreen} />
+            <Stack.Screen name="SignUp" component={SignUpScreen} />
 
 
         </Stack.Navigator>
