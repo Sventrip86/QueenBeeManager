@@ -1,10 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { signOut } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+import { FIREBASE_AUTH } from '../config/firebaseConfig';
+
 
 const ProfileScreen = () => {
+
+    const navigate = useNavigation();
+
+    const handleLogout = () => {
+        signOut(FIREBASE_AUTH).then(() => {
+            navigation.navigate('Login')
+        }).catch((error) => {
+            // Handle errors
+        });
+    };
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>HiveScreen</Text>
+      <Text style={styles.text}>Profile</Text>
+      <Button title="Logout" onPress={handleLogout} />
+
     </View>
   );
 };
