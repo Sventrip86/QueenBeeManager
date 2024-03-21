@@ -1,10 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View,  StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { Text } from 'react-native-paper';
+
 
 const ApiaryScreen = () => {
+    const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>ApiaryScreen</Text>
+     <Text variant="titleMedium">ApiaryScreen</Text>
+      <Button mode="contained" title="Create apiary" onPress={() => navigation.navigate('ApiaryCreationScreen')} >Create Apiary </Button>
     </View>
   );
 };
