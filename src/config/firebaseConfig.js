@@ -8,7 +8,7 @@ import { getFirestore } from 'firebase/firestore'
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCqP4yxZfyG4JrCT0HLyJ92xcW3AjkoX48",
+  apiKey: "AIzaSyALp2yXHe2m0YZ9uboll_Z4nmvXB6YFtgw",
   authDomain: "queenbee-889de.firebaseapp.com",
   projectId: "queenbee-889de",
   storageBucket: "queenbee-889de.appspot.com",
