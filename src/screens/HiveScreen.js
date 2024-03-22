@@ -1,25 +1,59 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { List, Button } from 'react-native-paper';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { FIRESTORE_DB } from '../config/firebaseConfig';
+import { useNavigation } from '@react-navigation/native';
 
-const HiveScreen = () => {
+const HiveScreen = ({ navigation, route }) => {
+  const [hives, setHives] = useState([]);
+  const apiaryId = route.params.apiaryId; // Get the apiaryId from navigation params
+
+  useEffect(() => {
+    console.log('Route params:', route.params);
+
+    const fetchHives = async () => {
+      const q = query(collection(FIRESTORE_DB, 'hives'), where('apiaryId', '==', apiaryId));
+      const querySnapshot = await getDocs(q);
+      const hivesData = [];
+      querySnapshot.forEach((doc) => {
+        hivesData.push({ id: doc.id, ...doc.data() });
+      });
+      setHives(hivesData);
+    };
+
+    fetchHives();
+  }, [apiaryId]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>HiveScreen</Text>
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate('HiveCreationScreen', { apiaryId })}
+      >
+        Add Hive
+      </Button>
+      <ScrollView>
+        {hives.map(hive => (
+          <List.Item
+            key={hive.id}
+            title={hive.name}
+            description={`Last Update: ${hive.lastUpdate}`}
+            onPress={() => {/* Navigate to Hive Details */}}
+            // Add more properties as needed
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 };
 
-// Define the styles
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
     padding: 20,
   },
-  text: {
-    fontSize: 20,
-    color: 'blue',
-  },
+  // Additional styles if needed
 });
 
 export default HiveScreen;

@@ -13,6 +13,7 @@ import { List } from 'react-native-paper';
 const ApiaryScreen = () => {
     const navigation = useNavigation();
     const [apiaries, setApiaries] = useState([]);
+    
 
   useEffect(() => {
     const fetchApiaries = async () => {
@@ -39,8 +40,9 @@ const ApiaryScreen = () => {
         title={apiary.name}
         description={`Location: ${apiary.location}`}
         left={props => <List.Icon {...props} icon="bee-flower" />}
-        onPress={() => {/* Handle item press, navigate to details, etc. */}}
-      />
+        onPress={() => navigation.navigate('Hives', { screen: 'Hives', params: { apiaryId: apiary.id } })}
+        
+        />
     ))}
       <Button mode="contained" title="Create apiary" onPress={() => navigation.navigate('ApiaryCreationScreen')} >Create Apiary </Button>
 
