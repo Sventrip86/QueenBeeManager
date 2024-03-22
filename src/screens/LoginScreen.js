@@ -1,8 +1,10 @@
 import React, {useState} from "react";
-import { Text, View, TextInput, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet,  } from "react-native";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
+import { Button, TextInput } from 'react-native-paper';
+
 
 
 const LoginScreen = () => {
@@ -29,7 +31,7 @@ const LoginScreen = () => {
 
 
     return(
-        <View>
+        <View style={styles.container}>
             <Text>Login screen</Text>
             <TextInput
                 placeholder="Email"
@@ -43,11 +45,13 @@ const LoginScreen = () => {
                 value={password}
                 onChangeText={setPassword}
                 />
-                <Button title="Login" onPress={handleLogin} />
+                <Button mode="outlined" onPress={handleLogin} >Login </Button>
       <Button
-        title="Don't have an account? Sign Up"
+
+        mode="outlined"
         onPress={() => navigation.navigate('SignUp')}
-      />
+      >       Don't have an account? Sign Up
+</Button>
 
         </View>
     )
@@ -62,8 +66,7 @@ const styles = StyleSheet.create({
     },
     input: {
       width: 200,
-      height: 40,
-      padding: 10,
+    
       borderWidth: 1,
       borderColor: 'gray',
       marginBottom: 10,

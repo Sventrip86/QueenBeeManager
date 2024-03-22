@@ -3,21 +3,26 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { TextInput, Button, Switch, List } from 'react-native-paper';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../config/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 
-const HiveCreationScreen = ({ navigation, route }) => {
+const HiveCreationScreen = ({  route }) => {
   const [name, setName] = useState('');
-  const [creationDate, setCreationDate] = useState('');
-  const [lastUpdate, setLastUpdate] = useState('');
   const [eggs, setEggs] = useState(false);
   const [queen, setQueen] = useState(false);
   const [covata, setCovata] = useState('');
   const [cupoliniReali, setCupoliniReali] = useState(false);
   const [celleReali, setCelleReali] = useState(false);
   const [notes, setNotes] = useState('');
+  const navigation = useNavigation();
+
 
   const handleSubmit = async () => {
-    // Add validation if needed
-    try {
+    const apiaryId = route.params?.apiaryId;
+    if (!apiaryId) {
+      console.error('No apiaryId provided');
+      return; // Optionally, show an error message to the user
+    }
+        try {
       await addDoc(collection(FIRESTORE_DB, 'hives'), {
         name,
         eggs,
@@ -26,13 +31,13 @@ const HiveCreationScreen = ({ navigation, route }) => {
         cupoliniReali,
         celleReali,
         notes,
-        apiaryId: route.params.apiaryId, // Passed from the Apiary screen
+        apiaryId, // Passed from the Apiary screen
         userId: FIREBASE_AUTH.currentUser.uid,
         creationDate: new Date().toISOString(),
        
       });
       // Handle successful creation
-      navigation.navigate("Hives");
+      navigation.navigate("Hives", { apiaryId });
     } catch (error) {
       // Handle errors
       console.error(error);
