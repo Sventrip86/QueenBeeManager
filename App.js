@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
-import firebase from './src/config/firebaseConfig'
+import { Provider as PaperProvider } from 'react-native-paper';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from './src/config/firebaseConfig';
 
@@ -24,9 +24,13 @@ useEffect(() => {
 }, []);
 
 return (
+  <PaperProvider>
+
   <NavigationContainer>
     {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
   </NavigationContainer>
+  </PaperProvider>
+
 );
 };
 

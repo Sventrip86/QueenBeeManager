@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View,  StyleSheet } from 'react-native';
 import { signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { FIREBASE_AUTH } from '../config/firebaseConfig';
+import { Text, Button } from 'react-native-paper';
 
 
 const ProfileScreen = () => {
@@ -20,8 +21,10 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Profile</Text>
-      <Button title="Logout" onPress={handleLogout} />
+      <Text style={styles.text} variant='headlineMedium'>Profile</Text>
+      <Button 
+      mode='contained' 
+      onPress={handleLogout}>Log Out</Button>
 
     </View>
   );

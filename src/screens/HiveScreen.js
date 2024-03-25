@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { Card, Button, Paragraph, IconButton } from 'react-native-paper';
+import { Card, Button, Paragraph, IconButton, List } from 'react-native-paper';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
 
@@ -30,6 +30,15 @@ const HiveScreen = ({ navigation, route }) => {
         Add Hive
       </Button>
       <ScrollView>
+      {hives.map(hive => (
+      <List.Item
+        key={hive.id}
+        title={hive.name}
+        left={props => <List.Icon {...props} icon="hexagon-multiple" />}
+        
+        
+        />
+    ))}
         {hives.map(hive => (
           <Card key={hive.id} style={styles.card}>
             <Card.Content>

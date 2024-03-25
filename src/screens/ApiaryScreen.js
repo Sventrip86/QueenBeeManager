@@ -2,17 +2,17 @@ import React, {useState, useEffect } from 'react';
 import { View,  StyleSheet, ScrollView } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { Text } from 'react-native-paper';
 import { collection, query, where,getDocs } from 'firebase/firestore';
 import { FIREBASE_AUTH } from '../config/firebaseConfig';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
-import { List } from 'react-native-paper';
+import { List,  Dialog, Portal, Paragraph, Text  } from 'react-native-paper';
 
 
 
 const ApiaryScreen = () => {
     const navigation = useNavigation();
     const [apiaries, setApiaries] = useState([]);
+    const [isDialogVisible, setIsDialogVisible] = useState(false)
     
 
   useEffect(() => {
@@ -24,15 +24,26 @@ const ApiaryScreen = () => {
         apiariesData.push({ id: doc.id, ...doc.data() });
       });
       setApiaries(apiariesData);
+      if (apiariesData.length === 0) {
+        // Show dialog if no apiaries are found
+        setIsDialogVisible(true);
+      }
+    
       console.log(apiariesData);
     };
+    
 
     fetchApiaries();
   }, []);
 
+  const handleDialogDismiss = () => {
+    setIsDialogVisible(false);
+    navigation.navigate('ApiaryCreationScreen'); // Navigate to creation screen
+  };
+
   return (
     <View style={styles.container}>
-     <Text variant="titleMedium">Your apiaries </Text>
+     <Text variant="headlineMedium">Your apiaries </Text>
       <ScrollView contentContainerStyle={styles.contentContainer}>
     {apiaries.map(apiary => (
       <List.Item
@@ -47,6 +58,17 @@ const ApiaryScreen = () => {
       <Button mode="contained" title="Create apiary" onPress={() => navigation.navigate('ApiaryCreationScreen')} >Create Apiary </Button>
 
   </ScrollView>
+  <Portal>
+          <Dialog visible={isDialogVisible} onDismiss={handleDialogDismiss}>
+            <Dialog.Title>No Apiaries</Dialog.Title>
+            <Dialog.Content>
+              <Paragraph>You don't have any apiaries yet. Let's create one!</Paragraph>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={handleDialogDismiss}>OK</Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
 
     </View>
   );
@@ -56,6 +78,8 @@ const ApiaryScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contentContainer: {
    

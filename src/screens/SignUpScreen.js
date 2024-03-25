@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import { Text, View, TextInput, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
+import { Button, TextInput, Dialog, Portal, Paragraph } from 'react-native-paper';
 
 
 
@@ -12,12 +13,11 @@ const SignUpScreen = () => {
     const [password, setPassword] = useState('')
     const navigation = useNavigation();
 
-
+   
     const handleSignUp = async () => {
         try {
           if (email !== '' && password !== '') {
             await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
-            // Handle successful signup, like showing a welcome message or redirecting to login
           } else {
             // Handle error, like showing a message that email and password are required
           }
@@ -31,46 +31,74 @@ const SignUpScreen = () => {
 
 
     return(
-        <View>
-            <Text>SignUp screen</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>Register to QueenBeeKeeper</Text>
             <TextInput
-                placeholder="Email"
-                style={styles.input}
-                value={email}
-                onChangeText={setEmail}
-                />
-                   <TextInput
-                placeholder="Password"
-                style={styles.input}
-                value={password}
-                onChangeText={setPassword}
-                />
-                <Button title="signUp" onPress={handleSignUp} />
+                    placeholder="Email"
+                    style={styles.input}
+                    value={email}
+                    onChangeText={setEmail}
+                    mode="outlined"
+                    left={<TextInput.Icon icon="email" />}
+                    theme={{ colors: { primary: 'green' }}}
+                    />
+                    <TextInput
+                    placeholder="Password"
+                    style={styles.input}
+                    value={password}
+                    secureTextEntry
+                    mode="outlined"
+                    onChangeText={setPassword}
+                    left={<TextInput.Icon icon="key" />}
+
+                    theme={{ colors: { primary: 'green' }}}
+                    />
+                <Button
+                 style={styles.button}
+                 labelStyle={styles.buttonLabel}
+                 mode="contained"
+                 onPress={handleSignUp} >SignUp</Button>
       <Button
+      style={styles.button}
+      labelStyle={styles.buttonLabel}
+      mode="contained"
         title="Already registered? Log in"
         onPress={() => navigation.navigate('Login')}
-      />
+      >
+      Already registered? Log in </Button>
+
 
         </View>
+        
     )
 }
 
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    input: {
-      width: 200,
-      height: 40,
-      padding: 10,
-      borderWidth: 1,
-      borderColor: 'gray',
-      marginBottom: 10,
-    },
-  });
+ const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+        },
+        title: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            marginBottom: 20,
+            color: 'green', // Use your theme color
+        },
+        input: {
+            width: '80%',
+            marginBottom: 10,
+        },
+        button: {
+            width: '80%',
+            marginTop: 10,
+        },
+        buttonLabel: {
+            color: 'white', // For contained buttons
+        },
+    });
   
 
 

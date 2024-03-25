@@ -1,9 +1,11 @@
 import React, {useState} from "react";
-import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { collection, addDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from "../config/firebaseConfig";
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
+import { Button, TextInput, Dialog, Portal, Paragraph } from 'react-native-paper';
+
 
 
 
@@ -19,7 +21,7 @@ const ApiaryCreationScreen = () => {
     const handleCreateApiary = async () => {
         setIsLoading(true)
         if (!apiaryName || !location) {
-            // Handle validation error
+            // Handle validation error  
             return;
           }
           try {
@@ -50,16 +52,27 @@ const ApiaryCreationScreen = () => {
         placeholder="Apiary Name"
         value={apiaryName}
         onChangeText={setApiaryName}
+        mode="outlined"
+        theme={{ colors: { primary: 'green' }}}
+
         style={styles.input}
       />
       <TextInput
         placeholder="Location"
         value={location}
         onChangeText={setLocation}
+        mode="outlined"
+        theme={{ colors: { primary: 'green' }}}
+        left={<TextInput.Icon icon="compass" />}
+
+
         style={styles.input}
       />
       {/* Add other fields here */}
-      <Button title="Create Apiary" onPress={handleCreateApiary} />
+      <Button 
+       style={styles.button}
+       labelStyle={styles.buttonLabel}
+       mode="contained" onPress={handleCreateApiary} >Create Apiary</Button>
     </View>
   );
 };
@@ -71,13 +84,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  input: {
-    width: '100%',
-    marginVertical: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'green', // Use your theme color
+},
+input: {
+    width: '80%',
+    marginBottom: 10,
+},
+button: {
+    width: '80%',
+    marginTop: 10,
+},
+buttonLabel: {
+    color: 'white', // For contained buttons
+},
 });
 
 export default ApiaryCreationScreen;
