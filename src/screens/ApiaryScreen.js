@@ -13,6 +13,7 @@ const ApiaryScreen = () => {
     const navigation = useNavigation();
     const [apiaries, setApiaries] = useState([]);
     const [isDialogVisible, setIsDialogVisible] = useState(false)
+    const [ selectedApiary, setSelectedApiary ] = useState(null)
     
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const ApiaryScreen = () => {
 
   return (
     <View style={styles.container}>
-     <Text variant="headlineMedium">Your apiaries </Text>
+     <Text variant="headlineMedium" style={styles.text}>Your apiaries </Text>
       <ScrollView contentContainerStyle={styles.contentContainer}>
     {apiaries.map(apiary => (
       <List.Item
@@ -51,12 +52,22 @@ const ApiaryScreen = () => {
         title={apiary.name}
         description={`Location: ${apiary.location}`}
         left={props => <List.Icon {...props} icon="bee-flower" />}
-        onPress={() => navigation.navigate('Hives', { screen: 'Hives', params: { apiaryId: apiary.id } })}
+        onPress={() => {
+          setSelectedApiary(apiary.id);
+
+          navigation.navigate('Hives', { screen: 'Hives', params: { apiaryId: apiary.id } })
+
+        }}
+        style={selectedApiary === apiary.id ? styles.selectedItem : {}}
         
         />
     ))}
-      <Button mode="contained" title="Create apiary" onPress={() => navigation.navigate('ApiaryCreationScreen')} >Create Apiary </Button>
+      <Button mode="contained" title="Create apiary" onPress={() => {
 
+        navigation.navigate('ApiaryCreationScreen')} 
+        }    
+        >Create Apiary </Button>
+      
   </ScrollView>
   <Portal>
           <Dialog visible={isDialogVisible} onDismiss={handleDialogDismiss}>
@@ -78,20 +89,27 @@ const ApiaryScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingTop: 20
   },
   contentContainer: {
+    width: '100%',
    
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
   },
   text: {
     fontSize: 20,
-    color: 'blue',
+    color: 'green',
     marginBottom: 20,
+    textAlign: 'center',
   },
+  selectedItem:{
+    backgroundColor: '#e0e0e0',  // Light gray
+    borderRadius: 8, 
+    marginVertical: 4, 
+  }, 
+  listItem: {
+    marginVertical: 4, 
+    borderRadius: 8,  
+  }
 });
 
 export default ApiaryScreen;
