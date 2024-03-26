@@ -35,67 +35,12 @@ const HiveScreen = ({ navigation, route }) => {
         key={hive.id}
         title={hive.name}
         left={props => <List.Icon {...props} icon="hexagon-multiple" />}
+        onPress={() => navigation.navigate('HiveVisitCreationScreen', { hiveId: hive.id })}
+
         
         
         />
     ))}
-        {hives.map(hive => (
-          <Card key={hive.id} style={styles.card}>
-            <Card.Content>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Name: {hive.name}</Paragraph>
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Creation Date: {hive.creationDate}</Paragraph>
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Last Update: {hive.lastUpdate}</Paragraph>
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Eggs: </Paragraph>
-                <IconButton
-                  icon={hive.eggs ? 'check' : 'close'}
-                  size={20}
-                  color={hive.eggs ? 'green' : 'red'}
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Queen: </Paragraph>
-                <IconButton
-                  icon={hive.queen ? 'check' : 'close'}
-                  size={20}
-                  color={hive.queen ? 'green' : 'red'}
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Cupolini Reali: </Paragraph>
-                <IconButton
-                  icon={hive.cupoliniReali ? 'check' : 'close'}
-                  size={20}
-                  color={hive.cupoliniReali ? 'green' : 'red'}
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Celle Reali: </Paragraph>
-                <IconButton
-                  icon={hive.celleReali ? 'check' : 'close'}
-                  size={20}
-                  color={hive.celleReali ? 'green' : 'red'}
-                />
-              </View>
-              
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Notes: {hive.notes}</Paragraph>
-              </View>
-            </Card.Content>
-            <Card.Actions>
-              {/* Placeholder for future edit functionality */}
-              <Button onPress={() => {/* Navigate to Hive Details or Edit Screen */}}>
-                Edit
-              </Button>
-            </Card.Actions>
-          </Card>
-        ))}
       </ScrollView>
     </View>
   );
