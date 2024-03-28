@@ -14,6 +14,7 @@ const ApiaryScreen = () => {
     const [apiaries, setApiaries] = useState([]);
     const [isDialogVisible, setIsDialogVisible] = useState(false)
     const [ selectedApiary, setSelectedApiary ] = useState(null)
+    const [ isDialogSelectApiaryVisible, setDialogSelectApiaryVisible ] = useState(false)
     
 
   useEffect(() => {
@@ -28,6 +29,9 @@ const ApiaryScreen = () => {
       if (apiariesData.length === 0) {
         // Show dialog if no apiaries are found
         setIsDialogVisible(true);
+      }else {
+        setDialogSelectApiaryVisible(true)
+        
       }
     
       console.log(apiariesData);
@@ -41,6 +45,10 @@ const ApiaryScreen = () => {
     setIsDialogVisible(false);
     navigation.navigate('ApiaryCreationScreen'); // Navigate to creation screen
   };
+
+  const handleDialogSelectApiary = () => {
+    setDialogSelectApiaryVisible(false) 
+  }
 
   return (
     <View style={styles.container}>
@@ -79,6 +87,19 @@ const ApiaryScreen = () => {
               <Button onPress={handleDialogDismiss}>OK</Button>
             </Dialog.Actions>
           </Dialog>
+
+          <Dialog visible={isDialogSelectApiaryVisible} onDismiss={handleDialogSelectApiary}>
+            <Dialog.Title>No Apiary selected</Dialog.Title>
+            <Dialog.Content>
+              <Paragraph>You don't have any apiary selected. Please select one!</Paragraph>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button onPress={handleDialogSelectApiary}>OK</Button>
+            </Dialog.Actions>
+          </Dialog>
+
+
+          
         </Portal>
 
     </View>
