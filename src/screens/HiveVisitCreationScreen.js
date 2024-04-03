@@ -27,15 +27,16 @@ const HiveVisitCreationScreen = ({route}) => {
             console.error('No hiveId provided');
             return;
         }
+        let parsedCovata = covata && !isNaN(parseFloat(covata)) ? parseFloat(covata) : 0;
+
         try {
             await addDoc(collection(FIRESTORE_DB, 'hives', hiveId, 'visits'), {
                 eggs,
                 queen,
-                covata: parseFloat(covata), // Convert to float
+                covata: parsedCovata,
                 cupoliniReali,
                 celleReali,
                 notes,
-                hiveId, 
                 userId: FIREBASE_AUTH.currentUser.uid,
                 visitedAt: new Date().toISOString(),
             });

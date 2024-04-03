@@ -4,7 +4,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from "../config/firebaseConfig";
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
-import { Button, TextInput, Dialog, Portal, Paragraph } from 'react-native-paper';
+import { Button, TextInput, Dialog, Portal, Snackbar } from 'react-native-paper';
 
 
 
@@ -16,6 +16,10 @@ const ApiaryCreationScreen = () => {
     const [location, setLocation] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
+    const [visibleSnack, setVisibleSnack] = useState(false);
+
+    const openSnackBar = () => setVisibleSnack(!visibleSnack)
+    const onDismissSnackBar = () => setVisibleSnack(false)
 
 
     const handleCreateApiary = async () => {
@@ -31,14 +35,19 @@ const ApiaryCreationScreen = () => {
               creationDate: new Date().toISOString(),
               userId: FIREBASE_AUTH.currentUser.uid, 
             });
-            console.log("Apiary created successfully!");
-      Alert.alert("Success", "Apiary created successfully!"); // Success feedback
-      navigation.navigate("ApiaryScreen");
+            openSnackBar();
+
+            setTimeout(()=> {
+              navigation.navigate("ApiaryScreen");
+            }
+           ,3000);
+            //console.log("Apiary created successfully!");
+      //Alert.alert("Success", "Apiary created successfully!"); // Success feedback
             // Handle successful apiary creation
           } catch (error) {
             // Handle errors
             console.error("Error creating apiary: ", error);
-            Alert.alert("Error", "Failed to create apiary."); // Error feedback
+            Alert.alert("Error", "Failed to create apiary."); 
           } finally {
             setIsLoading(false)
           }
@@ -54,7 +63,6 @@ const ApiaryCreationScreen = () => {
         onChangeText={setApiaryName}
         mode="outlined"
         theme={{ colors: { primary: 'green' }}}
-
         style={styles.input}
       />
       <TextInput
@@ -64,15 +72,21 @@ const ApiaryCreationScreen = () => {
         mode="outlined"
         theme={{ colors: { primary: 'green' }}}
         left={<TextInput.Icon icon="compass" />}
-
-
         style={styles.input}
       />
-      {/* Add other fields here */}
       <Button 
        style={styles.button}
        labelStyle={styles.buttonLabel}
        mode="contained" onPress={handleCreateApiary} >Create Apiary</Button>
+
+<Snackbar 
+        visible={visibleSnack}
+        onDismiss={onDismissSnackBar}
+       
+        style={{ backgroundColor: 'green' }} 
+        >
+        Apiario creato con successo!
+      </Snackbar>
     </View>
   );
 };

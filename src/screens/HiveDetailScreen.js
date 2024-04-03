@@ -94,43 +94,43 @@ const HiveDetailScreen = ({ route }) => {
           <Card.Content>
             {/* Display visit details */}
             <Paragraph>Visited At: {visit.visitedAt}</Paragraph>
-          
              
             <View style={styles.row}>
                 <Paragraph style={styles.paragraph}>Eggs: </Paragraph>
                 <IconButton
-                  icon={hive.eggs ? 'check' : 'close'}
+                  icon={visit.eggs ? 'check' : 'close'}
                   size={20}
-                  color={hive.eggs ? 'green' : 'red'}
+                  color={visit.eggs ? 'green' : 'red'}
                 />
               </View>
               <View style={styles.row}>
                 <Paragraph style={styles.paragraph}>Queen: </Paragraph>
                 <IconButton
-                  icon={hive.queen ? 'check' : 'close'}
+                  icon={visit.queen ? 'check' : 'close'}
                   size={20}
-                  color={hive.queen ? 'green' : 'red'}
+                  color={visit.queen ? 'green' : 'red'}
                 />
               </View>
               <View style={styles.row}>
                 <Paragraph style={styles.paragraph}>Cupolini Reali: </Paragraph>
                 <IconButton
-                  icon={hive.cupoliniReali ? 'check' : 'close'}
+                  icon={visit.cupoliniReali ? 'check' : 'close'}
                   size={20}
-                  color={hive.cupoliniReali ? 'green' : 'red'}
+                  color={visit.cupoliniReali ? 'green' : 'red'}
+                  style={styles.iconButton}
                 />
               </View>
               <View style={styles.row}>
                 <Paragraph style={styles.paragraph}>Celle Reali: </Paragraph>
                 <IconButton
-                  icon={hive.celleReali ? 'check' : 'close'}
+                  icon={visit.celleReali ? 'check' : 'close'}
                   size={20}
-                  color={hive.celleReali ? 'green' : 'red'}
+                  color={visit.celleReali ? 'green' : 'red'}
                 />
               </View>
               
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Notes: {hive.notes}</Paragraph>
+                <Paragraph style={styles.paragraph}>Notes: {visit.notes}</Paragraph>
               </View>
           </Card.Content>
         </Card>
@@ -140,18 +140,30 @@ const HiveDetailScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  card: {
-    marginVertical: 8,
-  },
-  cardHive: {
-    marginVertical: 8,
- 
-    
-  },
-});
+    container: {
+      flex: 1,
+      padding: 20,
+    },
+    card: {
+      marginVertical: 8,
+      backgroundColor: '#f0f0f0', // Light grey background for card
+    },
+    cardHive: {
+      marginVertical: 8,
+      backgroundColor: '#B9F5D8', // Light grey background for hive card
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 4, // Spacing between each row
+    },
+    paragraph: {
+      flex: 1, // Ensures text occupies the available space, pushing icon to the end
+      marginRight: 8, // Space between text and icon
+    },
+    iconButton: {
+      flexShrink: 1, // Allows the icon to shrink if needed
+    },
+  });
 
 export default HiveDetailScreen;

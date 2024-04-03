@@ -19,8 +19,8 @@ const HiveCreationScreen = ({  route }) => {
   const handleSubmit = async () => {
     const apiaryId = route.params?.apiaryId;
     if (!apiaryId) {
-      console.error('No apiaryId provided');
-      return; // Optionally, show an error message to the user
+      console.error('No apiaryId provided'); // TODO: DIALOG FOR THE USER
+      return; 
     }
         try {
       await addDoc(collection(FIRESTORE_DB, 'hives'), {
