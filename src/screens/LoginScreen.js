@@ -32,7 +32,7 @@
 
         return(
             <View style={styles.container}>
-            <Text style={styles.title}>Welcome to QueenBeeKeeper</Text>
+            <Text style={styles.title}>Benvenuto su QueenBeeManager</Text>
                 <TextInput
                     placeholder="Email"
                     style={styles.input}
@@ -91,7 +91,7 @@
             fontSize: 24,
             fontWeight: 'bold',
             marginBottom: 20,
-            color: 'green', // Use your theme color
+            color: 'Orange', 
         },
         input: {
             width: '80%',
