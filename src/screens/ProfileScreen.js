@@ -58,13 +58,15 @@ useEffect(()=>{
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text} variant='headlineMedium'>Profile</Text>
-      <Text style={styles.text} variant='headlineSmall'>TOTAL APIARIES: {totApiaries}</Text>
-      <Text style={styles.text} variant='headlineSmall'>TOTAL HIVES: {totHives}</Text>
-      <Text style={styles.text} variant='headlineSmall'>TOTAL VISITS: </Text>
+      <Text  variant='displaySmall'>Profile</Text>
+      
+      <Text variant='headlineSmall'>TOTAL APIARIES: {totApiaries}</Text>
+      <Text  variant='headlineSmall'>TOTAL HIVES: {totHives}</Text>
 
       <Button 
       mode='contained' 
+      style={styles.button}
+
       onPress={handleLogout}>Log Out</Button>
 
     </View>
@@ -77,10 +79,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
   },
-  text: {
-    fontSize: 20,
-    color: 'blue',
-  },
+  button: {
+    marginVertical: 30
+  }
+
 });
 
 export default ProfileScreen;

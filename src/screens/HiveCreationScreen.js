@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { TextInput, Button, Switch, List } from 'react-native-paper';
+import { TextInput, Button, Switch, List, Snackbar } from 'react-native-paper';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../config/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -14,6 +14,16 @@ const HiveCreationScreen = ({  route }) => {
   const [celleReali, setCelleReali] = useState(false);
   const [notes, setNotes] = useState('');
   const navigation = useNavigation();
+  const [visibleSnack, setVisibleSnack] = useState(false);
+
+
+  const openSnackBar = () => setVisibleSnack(!visibleSnack)
+
+  const onDismissSnackBar = () => setVisibleSnack(false)
+
+
+
+
 
 
   const handleSubmit = async () => {
@@ -36,8 +46,12 @@ const HiveCreationScreen = ({  route }) => {
         creationDate: new Date().toISOString(),
        
       });
+      openSnackBar();
+      setTimeout(() => {
+        navigation.navigate("Hives", { apiaryId });
+
+      }, 3000);
       // Handle successful creation
-      navigation.navigate("Hives", { apiaryId });
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -83,6 +97,15 @@ const HiveCreationScreen = ({  route }) => {
         style={styles.input}
       />
       <Button mode="contained" onPress={handleSubmit}>Create Hive</Button>
+
+      <Snackbar 
+        visible={visibleSnack}
+        onDismiss={onDismissSnackBar}
+       
+        style={{ backgroundColor: 'green' }} 
+        >
+        Arnia creata con successo!
+      </Snackbar>
     </ScrollView>
   );
 };

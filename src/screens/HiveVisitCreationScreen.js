@@ -3,7 +3,7 @@ import React from "react";
 import { FIRESTORE_DB } from "../config/firebaseConfig";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { collection, addDoc } from "firebase/firestore";
-import { TextInput, Button, Switch, List } from 'react-native-paper';
+import { TextInput, Button, Switch, List, Snackbar} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
 
@@ -20,7 +20,13 @@ const HiveVisitCreationScreen = ({route}) => {
     const [celleReali, setCelleReali] = useState(false);
     const [notes, setNotes] = useState('');
     const navigation = useNavigation();
+    const [visibleSnack, setVisibleSnack] = useState(false);
 
+
+    const openSnackBar = () => setVisibleSnack(!visibleSnack)
+  
+    const onDismissSnackBar = () => setVisibleSnack(false)
+  
 
     const handleSubmit = async () => {
         if(!hiveId){
@@ -40,8 +46,12 @@ const HiveVisitCreationScreen = ({route}) => {
                 userId: FIREBASE_AUTH.currentUser.uid,
                 visitedAt: new Date().toISOString(),
             });
-            navigation.navigate("Hives", { apiaryId });
-            // Optional: Navigate back or to another screen
+
+            openSnackBar();
+            setTimeout(() => {
+              navigation.navigate("Hives", { apiaryId });
+      
+            }, 3000);
           } catch (error) {
             console.error(error);
           }
@@ -90,6 +100,14 @@ const HiveVisitCreationScreen = ({route}) => {
       />
                 <Button mode="contained" onPress={handleSubmit}>Create Visit</Button>
             </ScrollView>
+            <Snackbar 
+        visible={visibleSnack}
+        onDismiss={onDismissSnackBar}
+       
+        style={{ backgroundColor: 'green' }} 
+        >
+        Visita creata con successo!
+      </Snackbar>
             </View>
 )
 }

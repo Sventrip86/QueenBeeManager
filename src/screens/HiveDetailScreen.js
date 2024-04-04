@@ -44,14 +44,13 @@ const HiveDetailScreen = ({ route }) => {
                 <Paragraph style={styles.paragraph}>Creation Date: {hive.creationDate}</Paragraph>
               </View>
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Last Update: {hive.lastUpdate}</Paragraph>
-              </View>
-              <View style={styles.row}>
                 <Paragraph style={styles.paragraph}>Eggs: </Paragraph>
                 <IconButton
                   icon={hive.eggs ? 'check' : 'close'}
                   size={20}
                   color={hive.eggs ? 'green' : 'red'}
+                  style={styles.iconButton}
+
                 />
               </View>
               <View style={styles.row}>
@@ -60,6 +59,8 @@ const HiveDetailScreen = ({ route }) => {
                   icon={hive.queen ? 'check' : 'close'}
                   size={20}
                   color={hive.queen ? 'green' : 'red'}
+                  style={styles.iconButton}
+
                 />
               </View>
               <View style={styles.row}>
@@ -68,6 +69,8 @@ const HiveDetailScreen = ({ route }) => {
                   icon={hive.cupoliniReali ? 'check' : 'close'}
                   size={20}
                   color={hive.cupoliniReali ? 'green' : 'red'}
+                  style={styles.iconButton}
+
                 />
               </View>
               <View style={styles.row}>
@@ -76,6 +79,8 @@ const HiveDetailScreen = ({ route }) => {
                   icon={hive.celleReali ? 'check' : 'close'}
                   size={20}
                   color={hive.celleReali ? 'green' : 'red'}
+                  style={styles.iconButton}
+
                 />
               </View>
               
@@ -101,6 +106,8 @@ const HiveDetailScreen = ({ route }) => {
                   icon={visit.eggs ? 'check' : 'close'}
                   size={20}
                   color={visit.eggs ? 'green' : 'red'}
+                  style={styles.iconButton}
+
                 />
               </View>
               <View style={styles.row}>
@@ -109,6 +116,8 @@ const HiveDetailScreen = ({ route }) => {
                   icon={visit.queen ? 'check' : 'close'}
                   size={20}
                   color={visit.queen ? 'green' : 'red'}
+                  style={styles.iconButton}
+
                 />
               </View>
               <View style={styles.row}>
@@ -126,6 +135,8 @@ const HiveDetailScreen = ({ route }) => {
                   icon={visit.celleReali ? 'check' : 'close'}
                   size={20}
                   color={visit.celleReali ? 'green' : 'red'}
+                  style={styles.iconButton}
+
                 />
               </View>
               
@@ -147,10 +158,13 @@ const styles = StyleSheet.create({
     card: {
       marginVertical: 8,
       backgroundColor: '#f0f0f0', // Light grey background for card
+      elevation: 2,
     },
     cardHive: {
       marginVertical: 8,
       backgroundColor: '#B9F5D8', // Light grey background for hive card
+      elevation: 2,
+
     },
     row: {
       flexDirection: 'row',
@@ -160,6 +174,7 @@ const styles = StyleSheet.create({
     paragraph: {
       flex: 1, // Ensures text occupies the available space, pushing icon to the end
       marginRight: 8, // Space between text and icon
+      fontSize: 20,
     },
     iconButton: {
       flexShrink: 1, // Allows the icon to shrink if needed

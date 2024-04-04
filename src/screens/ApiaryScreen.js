@@ -2,10 +2,10 @@
   import { View,  StyleSheet, ScrollView } from 'react-native';
   import { Button } from 'react-native-paper';
   import { useFocusEffect, useNavigation } from '@react-navigation/native';
-  import { collection, query, where,getDocs } from 'firebase/firestore';
+  import { collection, query, where,getDocs, deleteDoc, doc } from 'firebase/firestore';
   import { FIREBASE_AUTH } from '../config/firebaseConfig';
   import { FIRESTORE_DB } from '../config/firebaseConfig';
-  import { List,  Dialog, Portal, Paragraph, Text  } from 'react-native-paper';
+  import { List,  Dialog, Portal, Paragraph, Text , IconButton, Menu } from 'react-native-paper';
 
 
 
@@ -17,6 +17,12 @@
       const [ isDialogSelectApiaryVisible, setDialogSelectApiaryVisible ] = useState(false)
       const [isApiarySelected, setIsApiarySelected] = useState(false);
       const [apiariesAvailable, setApiariesAvailable] = useState(false);
+      const [menuVisible, setMenuVisible] = useState({});
+
+
+      const toggleMenu = (apiaryId) => setMenuVisible(prev => ({ ...prev, [apiaryId]: !prev[apiaryId] }));
+
+
 
       
 
@@ -61,9 +67,39 @@
 
       setSelectedApiary(apiaryId);
       setIsApiarySelected(true);
+      navigation.navigate('HivesTab', { screen: 'Hives', params: { apiaryId } });
+    }
 
-      navigation.navigate('Hives', { screen: 'Hives', params: { apiaryId } });
+    const handleDeleteApiary = async (apiaryId) => {
+      try {
+        // First, delete all hives within the apiary
+        const hivesRef = collection(FIRESTORE_DB, 'apiaries', apiaryId, 'hives');
+        const querySnapshot = await getDocs(hivesRef);
+        await Promise.all(querySnapshot.docs.map((doc) => deleteDoc(doc.ref)));
+    
+        // Then, delete the apiary document itself
+        await deleteDoc(doc(FIRESTORE_DB, 'apiaries', apiaryId));
+    
+        await fetchApiaries();  // refresh the list 
 
+                 // Show dialog if no apiaries are found (same as line 39)
+
+                 if (apiaries.length === 0) {
+                  setIsDialogVisible(true);
+                  setApiariesAvailable(false);
+        
+                } else {
+                  setApiariesAvailable(true);
+              }
+
+       
+      } catch (error) {
+        console.error('Error deleting apiary: ', error);
+      }
+    };
+    
+
+    const handleUpdateApiary = (apiaryId) => {
 
     }
 
@@ -86,8 +122,23 @@
           left={props => <List.Icon {...props} icon="bee-flower" />}
           onPress={() => handleSelectApiary(apiary.id)}
 
-          style={selectedApiary === apiary.id ? styles.selectedItem : {}}
-          
+          style={selectedApiary === apiary.id ? styles.selectedItem : styles.listItem}
+          right={() => (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Menu
+                visible={menuVisible[apiary.id]}
+                onDismiss={() => toggleMenu(apiary.id)}
+                anchor={
+                  <IconButton
+                    icon="dots-vertical"
+                    onPress={() => toggleMenu(apiary.id)}
+                  />
+                }>
+                <Menu.Item  leadingIcon='pencil' onPress={() => handleUpdateApiary(apiary.id)} title="Update" />
+                <Menu.Item leadingIcon='delete' onPress={() => handleDeleteApiary(apiary.id)} title="Delete" />
+              </Menu>
+            </View>
+          )}
           />
       ))}
         <Button mode="contained" title="Create apiary" onPress={() => {

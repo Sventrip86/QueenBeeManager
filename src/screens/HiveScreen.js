@@ -21,9 +21,6 @@ const HiveScreen = ({ navigation, route }) => {
     };
 
  
-
-
-
   useFocusEffect(
     useCallback(() => {
         fetchHives();

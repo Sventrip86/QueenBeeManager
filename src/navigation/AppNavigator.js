@@ -21,7 +21,7 @@ const AppNavigator = () => {
         }} 
       />
       <Tab.Screen 
-        name="Hives" 
+        name="HivesTab" 
         component={HiveStackNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
