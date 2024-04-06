@@ -61,17 +61,17 @@ const HiveCreationScreen = ({  route }) => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <TextInput
-        label="Hive Name"
+        label="Nome arnia"
         value={name}
         onChangeText={setName}
         style={styles.input}
       />
       <List.Item
-        title="Eggs"
+        title="Uova"
         right={() => <Switch value={eggs} onValueChange={setEggs} />}
       />
       <List.Item
-        title="Queen"
+        title="Regina"
         right={() => <Switch value={queen} onValueChange={setQueen} />}
       />
       <TextInput
@@ -96,7 +96,7 @@ const HiveCreationScreen = ({  route }) => {
         multiline
         style={styles.input}
       />
-      <Button mode="contained" onPress={handleSubmit}>Create Hive</Button>
+      <Button mode="contained" onPress={handleSubmit}>Crea arnia</Button>
 
       <Snackbar 
         visible={visibleSnack}

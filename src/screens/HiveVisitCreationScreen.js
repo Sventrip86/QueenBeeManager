@@ -63,7 +63,7 @@ const HiveVisitCreationScreen = ({route}) => {
             <Button 
             mode="contained"
             onPress={()=> navigation.navigate("HiveDetailScreen", { hiveId: hiveId })}
-                        >Go to the views history</Button>
+                        >Visualizza lo storico visite</Button>
             
         
         <ScrollView  contentContainerStyle={styles.contentContainer}>   
@@ -98,7 +98,7 @@ const HiveVisitCreationScreen = ({route}) => {
         multiline
         style={styles.input}
       />
-                <Button mode="contained" onPress={handleSubmit}>Create Visit</Button>
+                <Button mode="contained" onPress={handleSubmit}>Crea Visita</Button>
             </ScrollView>
             <Snackbar 
         visible={visibleSnack}

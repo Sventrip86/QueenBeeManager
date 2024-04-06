@@ -38,13 +38,13 @@ const HiveDetailScreen = ({ route }) => {
 <Card key={hive.id} style={styles.cardHive} mode='contained'>
             <Card.Content>
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Name: {hive.name}</Paragraph>
+                <Paragraph style={styles.paragraph}>Nome: {hive.name}</Paragraph>
               </View>
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Creation Date: {hive.creationDate}</Paragraph>
+                <Paragraph style={styles.paragraph}>Data creazione: {hive.creationDate}</Paragraph>
               </View>
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Eggs: </Paragraph>
+                <Paragraph style={styles.paragraph}>Uova: </Paragraph>
                 <IconButton
                   icon={hive.eggs ? 'check' : 'close'}
                   size={20}
@@ -54,7 +54,7 @@ const HiveDetailScreen = ({ route }) => {
                 />
               </View>
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Queen: </Paragraph>
+                <Paragraph style={styles.paragraph}>Regina: </Paragraph>
                 <IconButton
                   icon={hive.queen ? 'check' : 'close'}
                   size={20}
@@ -85,7 +85,7 @@ const HiveDetailScreen = ({ route }) => {
               </View>
               
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Notes: {hive.notes}</Paragraph>
+                <Paragraph style={styles.paragraph}>Note: {hive.notes}</Paragraph>
               </View>
             </Card.Content>
           </Card>
@@ -98,10 +98,10 @@ const HiveDetailScreen = ({ route }) => {
         <Card key={visit.id} style={styles.card}>
           <Card.Content>
             {/* Display visit details */}
-            <Paragraph>Visited At: {visit.visitedAt}</Paragraph>
+            <Paragraph>Visitato il: {visit.visitedAt}</Paragraph>
              
             <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Eggs: </Paragraph>
+                <Paragraph style={styles.paragraph}>Uova: </Paragraph>
                 <IconButton
                   icon={visit.eggs ? 'check' : 'close'}
                   size={20}
@@ -111,7 +111,7 @@ const HiveDetailScreen = ({ route }) => {
                 />
               </View>
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Queen: </Paragraph>
+                <Paragraph style={styles.paragraph}>Regina: </Paragraph>
                 <IconButton
                   icon={visit.queen ? 'check' : 'close'}
                   size={20}
@@ -141,7 +141,7 @@ const HiveDetailScreen = ({ route }) => {
               </View>
               
               <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Notes: {visit.notes}</Paragraph>
+                <Paragraph style={styles.paragraph}>Note: {visit.notes}</Paragraph>
               </View>
           </Card.Content>
         </Card>
@@ -172,12 +172,12 @@ const styles = StyleSheet.create({
       marginBottom: 4, // Spacing between each row
     },
     paragraph: {
-      flex: 1, // Ensures text occupies the available space, pushing icon to the end
+      flex: 1, 
       marginRight: 8, // Space between text and icon
       fontSize: 20,
     },
     iconButton: {
-      flexShrink: 1, // Allows the icon to shrink if needed
+      flexShrink: 1, 
     },
   });
 

@@ -32,7 +32,7 @@
 
         return(
             <View style={styles.container}>
-            <Text style={styles.title}>Welcome to QueenBeeKeeper</Text>
+            <Text style={styles.title}>Benvenuto su QueenBeeManager</Text>
                 <TextInput
                     placeholder="Email"
                     style={styles.input}
@@ -67,7 +67,7 @@
                 style={styles.button}
                 labelStyle={styles.buttonLabel}
             >
-                Don't have an account? Sign Up
+                Non hai un account? Registrati
             </Button>
 
             </View>

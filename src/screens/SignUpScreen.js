@@ -32,7 +32,7 @@ const SignUpScreen = () => {
 
     return(
         <View style={styles.container}>
-            <Text style={styles.title}>Register to QueenBeeKeeper</Text>
+            <Text style={styles.title}>Registrati su QueenBeeManager</Text>
             <TextInput
                     placeholder="Email"
                     style={styles.input}
@@ -57,7 +57,7 @@ const SignUpScreen = () => {
                  style={styles.button}
                  labelStyle={styles.buttonLabel}
                  mode="contained"
-                 onPress={handleSignUp} >SignUp</Button>
+                 onPress={handleSignUp} >Registrati</Button>
       <Button
       style={styles.button}
       labelStyle={styles.buttonLabel}
@@ -65,7 +65,7 @@ const SignUpScreen = () => {
         title="Already registered? Log in"
         onPress={() => navigation.navigate('Login')}
       >
-      Already registered? Log in </Button>
+      Sei già registrato? Accedi </Button>
 
 
         </View>

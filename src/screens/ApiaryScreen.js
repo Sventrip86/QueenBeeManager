@@ -77,21 +77,14 @@
         const querySnapshot = await getDocs(hivesRef);
         await Promise.all(querySnapshot.docs.map((doc) => deleteDoc(doc.ref)));
     
-        // Then, delete the apiary document itself
+        // Then, delete the apiary document
         await deleteDoc(doc(FIRESTORE_DB, 'apiaries', apiaryId));
     
         await fetchApiaries();  // refresh the list 
-
-                 // Show dialog if no apiaries are found (same as line 39)
-
-                 if (apiaries.length === 0) {
-                  setIsDialogVisible(true);
-                  setApiariesAvailable(false);
-        
-                } else {
-                  setApiariesAvailable(true);
-              }
-
+        // display dialog select apiary check
+        if (apiaries.length === 0) {
+          setIsDialogVisible(true); // No apiaries left, show dialog to create new one
+        } // elseif the user delete the selected apiary logic TODO
        
       } catch (error) {
         console.error('Error deleting apiary: ', error);
@@ -112,13 +105,13 @@
 
     return (
       <View style={styles.container}>
-      <Text variant="headlineMedium" style={styles.text}>Your apiaries </Text>
+      <Text variant="headlineMedium" style={styles.text}>I tuoi apiari </Text>
         <ScrollView contentContainerStyle={styles.contentContainer}>
       {apiaries.map(apiary => (
         <List.Item
           key={apiary.id}
           title={apiary.name}
-          description={`Location: ${apiary.location}`}
+          description={`Posizione: ${apiary.location}`}
           left={props => <List.Icon {...props} icon="bee-flower" />}
           onPress={() => handleSelectApiary(apiary.id)}
 
@@ -134,8 +127,8 @@
                     onPress={() => toggleMenu(apiary.id)}
                   />
                 }>
-                <Menu.Item  leadingIcon='pencil' onPress={() => handleUpdateApiary(apiary.id)} title="Update" />
-                <Menu.Item leadingIcon='delete' onPress={() => handleDeleteApiary(apiary.id)} title="Delete" />
+                <Menu.Item  leadingIcon='pencil' onPress={() => handleUpdateApiary(apiary.id)} title="Modifica" />
+                <Menu.Item leadingIcon='delete' onPress={() => handleDeleteApiary(apiary.id)} title="Elimina" />
               </Menu>
             </View>
           )}
@@ -150,9 +143,11 @@
     </ScrollView>
     <Portal>
             <Dialog visible={isDialogVisible} onDismiss={handleDialogDismiss}>
-              <Dialog.Title>No Apiaries</Dialog.Title>
+              <Dialog.Title>Nessun apiario presente</Dialog.Title>
               <Dialog.Content>
-                <Paragraph>You don't have any apiaries yet. Let's create one!</Paragraph>
+                {/* <Paragraph>You don't have any apiaries yet. Let's create one!</Paragraph> */}
+                <Paragraph>Non esistono apiari, creane subito uno! </Paragraph>
+
               </Dialog.Content>
               <Dialog.Actions>
                 <Button onPress={handleDialogDismiss}>OK</Button>
@@ -162,10 +157,11 @@
             <Dialog visible={isDialogSelectApiaryVisible} onDismiss={handleDialogSelectApiary}>
             <Dialog.Icon icon="alert" />
 
-              <Dialog.Title>No apiary selected !</Dialog.Title>
+              <Dialog.Title>Nessun apiario selezionato!</Dialog.Title>
               <Dialog.Content>
-                <Paragraph>You don't have any apiary selected. Please select one!</Paragraph>
-              </Dialog.Content>
+             {/* <Paragraph>You don't have any apiary selected. Please select one!</Paragraph> */}
+             <Paragraph>Seleziona un apiario dalla lista</Paragraph> 
+          </Dialog.Content>
               <Dialog.Actions>
                 <Button onPress={handleDialogSelectApiary}>OK</Button>
               </Dialog.Actions>

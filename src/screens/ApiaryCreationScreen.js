@@ -58,7 +58,7 @@ const ApiaryCreationScreen = () => {
     return (
     <View style={styles.container}>
       <TextInput
-        placeholder="Apiary Name"
+        placeholder="Nome apiario"
         value={apiaryName}
         onChangeText={setApiaryName}
         mode="outlined"
@@ -66,7 +66,7 @@ const ApiaryCreationScreen = () => {
         style={styles.input}
       />
       <TextInput
-        placeholder="Location"
+        placeholder="Posizione"
         value={location}
         onChangeText={setLocation}
         mode="outlined"
@@ -77,16 +77,16 @@ const ApiaryCreationScreen = () => {
       <Button 
        style={styles.button}
        labelStyle={styles.buttonLabel}
-       mode="contained" onPress={handleCreateApiary} >Create Apiary</Button>
+       mode="contained" onPress={handleCreateApiary} >Crea Apiario</Button>
 
-<Snackbar 
-        visible={visibleSnack}
-        onDismiss={onDismissSnackBar}
-       
-        style={{ backgroundColor: 'green' }} 
-        >
-        Apiario creato con successo!
-      </Snackbar>
+  <Snackbar 
+          visible={visibleSnack}
+          onDismiss={onDismissSnackBar}
+        
+          style={{ backgroundColor: 'green' }} 
+          >
+          Apiario creato con successo!
+        </Snackbar>
     </View>
   );
 };

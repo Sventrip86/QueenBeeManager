@@ -58,10 +58,10 @@ useEffect(()=>{
 
   return (
     <View style={styles.container}>
-      <Text  variant='displaySmall'>Profile</Text>
+      <Text  variant='displaySmall'>Il tuo profilo</Text>
       
-      <Text variant='headlineSmall'>TOTAL APIARIES: {totApiaries}</Text>
-      <Text  variant='headlineSmall'>TOTAL HIVES: {totHives}</Text>
+      <Text variant='headlineSmall'>TOTALE APIARI: {totApiaries}</Text>
+      <Text  variant='headlineSmall'>TOTALE ARNIE: {totHives}</Text>
 
       <Button 
       mode='contained' 
