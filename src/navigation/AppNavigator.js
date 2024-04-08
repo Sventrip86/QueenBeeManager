@@ -10,13 +10,17 @@ const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+    screenOptions={{
+      tabBarActiveTintColor: '#157F1F',
+    }}
+    >
       <Tab.Screen 
         name="Apiaries" 
         component={ApiaryStackNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bee" color={color} size={size} />
+            <MaterialCommunityIcons name="beehive-outline" color={color} size={size} />
           ),
         }} 
       />
@@ -34,7 +38,7 @@ const AppNavigator = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+            <MaterialCommunityIcons name="beekeeper" color={color} size={size} />
           ),
         }} 
       />

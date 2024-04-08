@@ -29,10 +29,13 @@ const HiveVisitCreationScreen = ({route}) => {
   
 
     const handleSubmit = async () => {
+        // check for hive 
         if(!hiveId){
             console.error('No hiveId provided');
             return;
         }
+
+        // TODO not rendering 
         let parsedCovata = covata && !isNaN(parseFloat(covata)) ? parseFloat(covata) : 0;
 
         try {
@@ -46,7 +49,7 @@ const HiveVisitCreationScreen = ({route}) => {
                 userId: FIREBASE_AUTH.currentUser.uid,
                 visitedAt: new Date().toISOString(),
             });
-
+            // if the creation is succesfull open the snack then navigate back 
             openSnackBar();
             setTimeout(() => {
               navigation.navigate("Hives", { apiaryId });
@@ -119,7 +122,8 @@ const styles = StyleSheet.create({
       padding: 20,
     },
     contentContainer: {
-      paddingBottom: 20, 
+      backgroundColor: '#FFD670',
+      marginVertical: 20
     },
     input: {
       marginBottom: 10,

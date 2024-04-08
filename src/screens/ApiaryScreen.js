@@ -139,7 +139,7 @@
 
           navigation.navigate('ApiaryCreationScreen')} 
           }    
-          >Create Apiary </Button>
+          >Crea Apiario </Button>
         
     </ScrollView>
     <Portal>
@@ -194,7 +194,7 @@
       fontWeight: 'bold'
     },
     selectedItem:{
-      backgroundColor: '#ADD8E6', // Light blue for selected items
+      backgroundColor: '#FFD670', // Light yellow for selected items
       borderRadius: 8,
       borderWidth: 1, // Added border width
       borderColor: 'black', // Added border color

@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Card, Button, Paragraph, IconButton, List } from 'react-native-paper';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const HiveScreen = ({ navigation, route }) => {
@@ -34,8 +34,10 @@ const HiveScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <Button
         mode="contained"
+       
         onPress={() => navigation.navigate('HiveCreationScreen', { apiaryId })}>
-        Add Hive
+          
+        Aggiungi Arnia
       </Button>
       <ScrollView>
       {hives.map(hive => (

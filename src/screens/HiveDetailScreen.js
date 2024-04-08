@@ -48,7 +48,7 @@ const HiveDetailScreen = ({ route }) => {
                 <IconButton
                   icon={hive.eggs ? 'check' : 'close'}
                   size={20}
-                  color={hive.eggs ? 'green' : 'red'}
+                  iconColor={hive.eggs ? 'green' : 'red'}
                   style={styles.iconButton}
 
                 />
@@ -58,7 +58,7 @@ const HiveDetailScreen = ({ route }) => {
                 <IconButton
                   icon={hive.queen ? 'check' : 'close'}
                   size={20}
-                  color={hive.queen ? 'green' : 'red'}
+                  iconColor={hive.queen ? 'green' : 'red'}
                   style={styles.iconButton}
 
                 />
@@ -68,7 +68,7 @@ const HiveDetailScreen = ({ route }) => {
                 <IconButton
                   icon={hive.cupoliniReali ? 'check' : 'close'}
                   size={20}
-                  color={hive.cupoliniReali ? 'green' : 'red'}
+                  iconColor={hive.cupoliniReali ? 'green' : 'red'}
                   style={styles.iconButton}
 
                 />
@@ -78,7 +78,7 @@ const HiveDetailScreen = ({ route }) => {
                 <IconButton
                   icon={hive.celleReali ? 'check' : 'close'}
                   size={20}
-                  color={hive.celleReali ? 'green' : 'red'}
+                  iconColor={hive.celleReali ? 'green' : 'red'}
                   style={styles.iconButton}
 
                 />
@@ -105,7 +105,7 @@ const HiveDetailScreen = ({ route }) => {
                 <IconButton
                   icon={visit.eggs ? 'check' : 'close'}
                   size={20}
-                  color={visit.eggs ? 'green' : 'red'}
+                  iconColor={visit.eggs ? 'green' : 'red'}
                   style={styles.iconButton}
 
                 />
@@ -115,7 +115,7 @@ const HiveDetailScreen = ({ route }) => {
                 <IconButton
                   icon={visit.queen ? 'check' : 'close'}
                   size={20}
-                  color={visit.queen ? 'green' : 'red'}
+                  iconColor={visit.queen ? 'green' : 'red'}
                   style={styles.iconButton}
 
                 />
@@ -125,7 +125,7 @@ const HiveDetailScreen = ({ route }) => {
                 <IconButton
                   icon={visit.cupoliniReali ? 'check' : 'close'}
                   size={20}
-                  color={visit.cupoliniReali ? 'green' : 'red'}
+                  iconColor={visit.cupoliniReali ? 'green' : 'red'}
                   style={styles.iconButton}
                 />
               </View>
@@ -134,7 +134,7 @@ const HiveDetailScreen = ({ route }) => {
                 <IconButton
                   icon={visit.celleReali ? 'check' : 'close'}
                   size={20}
-                  color={visit.celleReali ? 'green' : 'red'}
+                  iconColor={visit.celleReali ? 'green' : 'red'}
                   style={styles.iconButton}
 
                 />
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     },
     cardHive: {
       marginVertical: 8,
-      backgroundColor: '#B9F5D8', // Light grey background for hive card
+      backgroundColor: '#FFD670', // Light grey background for hive card
       elevation: 2,
 
     },
