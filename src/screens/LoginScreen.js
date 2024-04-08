@@ -15,16 +15,14 @@
 
         const handleLogin = async () => {
             try {
-            if (email !== '' && password !== '') {
+            if (email !== '' && password !== '') { // Check for empty text fields
                 await signInWithEmailAndPassword(FIREBASE_AUTH, email, password);
-                // Handle successful login, like navigating to the home screen
             } else {
-                // Handle error, like showing a message that email and password are required
-            }
+                        // TODO Display a warning message to the user          
+                    }
             } catch (error) {
-            // Handle any other error, like wrong password or network issues
             console.error(error.message);
-            // Optionally, display an error message to the user
+            // TODO Display an error message to the user
             }
         };
         
@@ -91,7 +89,7 @@
             fontSize: 24,
             fontWeight: 'bold',
             marginBottom: 20,
-            color: 'green', // Use your theme color
+            color: 'black', 
         },
         input: {
             width: '80%',

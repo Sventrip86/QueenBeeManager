@@ -1,10 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 import AuthNavigator from './src/navigation/AuthNavigator';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider,  } from 'react-native-paper';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from './src/config/firebaseConfig';
 
@@ -12,7 +11,7 @@ import { FIREBASE_AUTH } from './src/config/firebaseConfig';
 
 export default function App() {
 
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 // Listen to the Firebase Auth state and set the user status
 useEffect(() => {

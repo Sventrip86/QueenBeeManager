@@ -9,7 +9,8 @@
 
 
 
-  const ApiaryScreen = () => {
+
+  const ApiaryScreen = ()=> {
       const navigation = useNavigation();
       const [apiaries, setApiaries] = useState([]);
       const [isDialogVisible, setIsDialogVisible] = useState(false)
@@ -165,7 +166,7 @@
               <Dialog.Actions>
                 <Button onPress={handleDialogSelectApiary}>OK</Button>
               </Dialog.Actions>
-            </Dialog>
+            </Dialog> 
 
 
             
