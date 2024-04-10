@@ -101,7 +101,9 @@ const HiveVisitCreationScreen = ({route}) => {
         multiline
         style={styles.input}
       />
-                <Button mode="contained" onPress={handleSubmit}>Crea Visita</Button>
+                <Button mode="contained" 
+                
+                onPress={handleSubmit}>Crea Visita</Button>
             </ScrollView>
             <Snackbar 
         visible={visibleSnack}

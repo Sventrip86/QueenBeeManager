@@ -1,11 +1,11 @@
   import React, {useState, useEffect, useCallback } from 'react';
   import { View,  StyleSheet, ScrollView } from 'react-native';
-  import { Button } from 'react-native-paper';
+  import { Button, Icon } from 'react-native-paper';
   import { useFocusEffect, useNavigation } from '@react-navigation/native';
   import { collection, query, where,getDocs, deleteDoc, doc } from 'firebase/firestore';
   import { FIREBASE_AUTH } from '../config/firebaseConfig';
   import { FIRESTORE_DB } from '../config/firebaseConfig';
-  import { List,  Dialog, Portal, Paragraph, Text , IconButton, Menu } from 'react-native-paper';
+  import { List,  Dialog, Portal, Paragraph, Text , IconButton, Menu, Modal } from 'react-native-paper';
 
 
 
@@ -18,7 +18,8 @@
       const [ isDialogSelectApiaryVisible, setDialogSelectApiaryVisible ] = useState(false)
       const [isApiarySelected, setIsApiarySelected] = useState(false);
       const [apiariesAvailable, setApiariesAvailable] = useState(false);
-      const [menuVisible, setMenuVisible] = useState({});
+      const [menuVisible, setMenuVisible] = useState(false);
+    
 
 
       const toggleMenu = (apiaryId) => setMenuVisible(prev => ({ ...prev, [apiaryId]: !prev[apiaryId] }));
@@ -54,6 +55,7 @@
                     }, [])
     );
 
+   
 
     const handleDialogDismiss = () => {
       setIsDialogVisible(false);
@@ -114,6 +116,7 @@
           title={apiary.name}
           description={`Posizione: ${apiary.location}`}
           left={props => <List.Icon {...props} icon="bee-flower" />}
+          
           onPress={() => handleSelectApiary(apiary.id)}
 
           style={selectedApiary === apiary.id ? styles.selectedItem : styles.listItem}
@@ -142,35 +145,47 @@
           >Crea Apiario </Button>
         
     </ScrollView>
-    <Portal>
-            <Dialog visible={isDialogVisible} onDismiss={handleDialogDismiss}>
-              <Dialog.Title>Nessun apiario presente</Dialog.Title>
-              <Dialog.Content>
-                {/* <Paragraph>You don't have any apiaries yet. Let's create one!</Paragraph> */}
-                <Paragraph>Non esistono apiari, creane subito uno! </Paragraph>
 
-              </Dialog.Content>
-              <Dialog.Actions>
-                <Button onPress={handleDialogDismiss}>OK</Button>
-              </Dialog.Actions>
-            </Dialog>
+    <Modal
+      visible={isDialogVisible}
+      onDismiss={handleDialogSelectApiary}
+      contentContainerStyle={styles.modalContent}
+    >
+      <View style={styles.modalInnerContent}>
+        <IconButton icon="dots-vertical" style={styles.iconStyle} />
+        <Text style={styles.textStyle}>
+        Nessun apiario presente. Non esistono apiari, creane subito uno!
+                </Text>
+        <Button 
+          mode="contained" 
+          onPress={handleDialogDismiss} 
+          style={styles.buttonStyle}
+        >
+          OK
+        </Button>
+      </View>
+    </Modal>
 
-            <Dialog visible={isDialogSelectApiaryVisible} onDismiss={handleDialogSelectApiary}>
-            <Dialog.Icon icon="alert" />
-
-              <Dialog.Title>Nessun apiario selezionato!</Dialog.Title>
-              <Dialog.Content>
-             {/* <Paragraph>You don't have any apiary selected. Please select one!</Paragraph> */}
-             <Paragraph>Seleziona un apiario dalla lista</Paragraph> 
-          </Dialog.Content>
-              <Dialog.Actions>
-                <Button onPress={handleDialogSelectApiary}>OK</Button>
-              </Dialog.Actions>
-            </Dialog> 
-
-
-            
-          </Portal>
+      <Modal
+      visible={isDialogSelectApiaryVisible}
+      onDismiss={handleDialogSelectApiary}
+      contentContainerStyle={styles.modalContent}
+    >
+      <View style={styles.modalInnerContent}>
+        <IconButton icon="alert-box" size={50} iconColor='#F71735' style={styles.iconStyle} />
+        <Text style={styles.textStyle}>
+          Nessun apiario selezionato! Seleziona un apiario dalla lista
+        </Text>
+        <Button 
+          mode="contained" 
+          onPress={handleDialogSelectApiary} 
+          style={styles.buttonStyle}
+        >
+          OK
+        </Button>
+      </View>
+    </Modal>
+   
 
       </View>
     );
@@ -194,20 +209,51 @@
       fontWeight: 'bold'
     },
     selectedItem:{
-      backgroundColor: '#FFD670', // Light yellow for selected items
+      backgroundColor: '#FFD670', // Light yellow for selected apiary
       borderRadius: 8,
-      borderWidth: 1, // Added border width
-      borderColor: 'black', // Added border color
+      borderWidth: 1, 
+      borderColor: 'black', 
       marginVertical: 10,
       marginHorizontal: 10, // Added horizontal margin
     }, 
     listItem: {
-      backgroundColor: '#fff', // Background color for non-selected items
+      backgroundColor: '#fff', // Background color for non-selected apiaries
       borderRadius: 8,
-      borderWidth: 1, // Added border width
-      borderColor: 'black', // Added border color
+      borderWidth: 1, 
+      borderColor: 'black', 
       marginVertical: 10,
       marginHorizontal: 10, 
+    }, 
+    modalContent: {
+      backgroundColor: 'white',
+      padding: 20,
+      margin: 20,
+      borderRadius: 10,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
+    modalInnerContent: {
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      height: 200, 
+    },
+    iconStyle: {
+      marginBottom: 10,
+    },
+    textStyle: {
+      textAlign: 'center',
+      fontSize: 20,
+     marginBottom: 15,
+      // Additional text styling here
+    },
+    buttonStyle: {
+      // Additional button styling here
     }
   });
 

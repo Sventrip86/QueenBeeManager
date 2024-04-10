@@ -38,7 +38,7 @@
                     onChangeText={setEmail}
                     mode="outlined"
                     left={<TextInput.Icon icon="email" />}
-                    theme={{ colors: { primary: 'green' }}}
+                    //theme={{ colors: { primary: 'green' }}}
                     />
                     <TextInput
                     placeholder="Password"
@@ -49,7 +49,7 @@
                     onChangeText={setPassword}
                     left={<TextInput.Icon icon="key" />}
 
-                    theme={{ colors: { primary: 'green' }}}
+                    //theme={{ colors: { primary: 'green' }}}
                     />
                     <Button
                 mode="contained"

@@ -6,6 +6,7 @@ import AuthNavigator from './src/navigation/AuthNavigator';
 import { Provider as PaperProvider,  } from 'react-native-paper';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from './src/config/firebaseConfig';
+import CustomTheme from './src/CustomTheme'
 
 
 
@@ -23,7 +24,7 @@ useEffect(() => {
 }, []);
 
 return (
-  <PaperProvider>
+  <PaperProvider >
 
   <NavigationContainer>
     {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
