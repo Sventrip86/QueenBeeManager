@@ -5,7 +5,7 @@ import { FIREBASE_AUTH, FIRESTORE_DB } from '../config/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 
-const HiveCreationScreen = ({  route }) => {
+const HiveCreationScreen = ({ route }) => {
   const [name, setName] = useState('');
   const [eggs, setEggs] = useState(false);
   const [queen, setQueen] = useState(false);
@@ -30,9 +30,9 @@ const HiveCreationScreen = ({  route }) => {
     const apiaryId = route.params?.apiaryId;
     if (!apiaryId) {
       console.error('No apiaryId provided'); // TODO: DIALOG FOR THE USER
-      return; 
+      return;
     }
-        try {
+    try {
       await addDoc(collection(FIRESTORE_DB, 'hives'), {
         name,
         eggs,
@@ -44,7 +44,7 @@ const HiveCreationScreen = ({  route }) => {
         apiaryId, // Passed from the Apiary screen
         userId: FIREBASE_AUTH.currentUser.uid,
         creationDate: new Date().toISOString(),
-       
+
       });
       openSnackBar();
       setTimeout(() => {
@@ -98,12 +98,12 @@ const HiveCreationScreen = ({  route }) => {
       />
       <Button mode="contained" onPress={handleSubmit}>Crea arnia</Button>
 
-      <Snackbar 
+      <Snackbar
         visible={visibleSnack}
         onDismiss={onDismissSnackBar}
-       
-        style={{ backgroundColor: 'green' }} 
-        >
+
+        style={{ backgroundColor: 'green' }}
+      >
         Arnia creata con successo!
       </Snackbar>
     </ScrollView>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   contentContainer: {
-    paddingBottom: 20, 
+    paddingBottom: 20,
   },
   input: {
     marginBottom: 10,

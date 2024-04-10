@@ -1,7 +1,7 @@
 // HiveDetailScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { Card, Paragraph, IconButton } from 'react-native-paper';
+import { Card, Paragraph, IconButton , Chip} from 'react-native-paper';
 import { doc, getDoc, collection, query, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
 
@@ -35,114 +35,35 @@ const HiveDetailScreen = ({ route }) => {
   return (
     <ScrollView style={styles.container}>
         {hive && (
-<Card key={hive.id} style={styles.cardHive} mode='contained'>
+            <Card key={hive.id} style={styles.cardHive} mode="outlined">
+            <Card.Title title={`Arnia: ${hive.name}`} subtitle={`Data di Creazione: ${hive.creationDate}`} />
             <Card.Content>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Nome: {hive.name}</Paragraph>
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Data creazione: {hive.creationDate}</Paragraph>
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Uova: </Paragraph>
-                <IconButton
-                  icon={hive.eggs ? 'check' : 'close'}
-                  size={20}
-                  iconColor={hive.eggs ? 'green' : 'red'}
-                  style={styles.iconButton}
-
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Regina: </Paragraph>
-                <IconButton
-                  icon={hive.queen ? 'check' : 'close'}
-                  size={20}
-                  iconColor={hive.queen ? 'green' : 'red'}
-                  style={styles.iconButton}
-
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Cupolini Reali: </Paragraph>
-                <IconButton
-                  icon={hive.cupoliniReali ? 'check' : 'close'}
-                  size={20}
-                  iconColor={hive.cupoliniReali ? 'green' : 'red'}
-                  style={styles.iconButton}
-
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Celle Reali: </Paragraph>
-                <IconButton
-                  icon={hive.celleReali ? 'check' : 'close'}
-                  size={20}
-                  iconColor={hive.celleReali ? 'green' : 'red'}
-                  style={styles.iconButton}
-
-                />
-              </View>
-              
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Note: {hive.notes}</Paragraph>
-              </View>
+              <Paragraph style={styles.header}>Dettagli Arnia</Paragraph>
+              <Chip icon={hive.eggs ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Uova: {hive.eggs ? 'Presenti' : 'Assenti'}</Chip>
+              <Chip icon={hive.queen ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Regina: {hive.queen ? 'Presente' : 'Assente'}</Chip>
+              <Chip style={styles.chipStyle} textStyle={styles.chipText}>Covata: {hive.covata}</Chip>
+              <Chip icon={hive.celleReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Celle Reali: {hive.celleReali ? 'Sì' : 'No'}</Chip>
+              <Chip icon={hive.cupoliniReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Cupolini Reali: {hive.cupoliniReali ? 'Sì' : 'No'}</Chip>
+              <Chip style={styles.chipStyle} textStyle={styles.chipText}>Note: {hive.notes}</Chip>
             </Card.Content>
           </Card>
+
           )}
 
 
 
 
       {visits.map(visit => (
-        <Card key={visit.id} style={styles.card}>
+          <Card key={hive.id} style={styles.cardVisit} mode="outlined">
+          <Card.Title title={`Arnia: ${hive.name}`} subtitle={`Data visita: ${visit.visitedAt}`} />
           <Card.Content>
-            {/* Display visit details */}
-            <Paragraph>Visitato il: {visit.visitedAt}</Paragraph>
-             
-            <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Uova: </Paragraph>
-                <IconButton
-                  icon={visit.eggs ? 'check' : 'close'}
-                  size={20}
-                  iconColor={visit.eggs ? 'green' : 'red'}
-                  style={styles.iconButton}
-
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Regina: </Paragraph>
-                <IconButton
-                  icon={visit.queen ? 'check' : 'close'}
-                  size={20}
-                  iconColor={visit.queen ? 'green' : 'red'}
-                  style={styles.iconButton}
-
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Cupolini Reali: </Paragraph>
-                <IconButton
-                  icon={visit.cupoliniReali ? 'check' : 'close'}
-                  size={20}
-                  iconColor={visit.cupoliniReali ? 'green' : 'red'}
-                  style={styles.iconButton}
-                />
-              </View>
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Celle Reali: </Paragraph>
-                <IconButton
-                  icon={visit.celleReali ? 'check' : 'close'}
-                  size={20}
-                  iconColor={visit.celleReali ? 'green' : 'red'}
-                  style={styles.iconButton}
-
-                />
-              </View>
-              
-              <View style={styles.row}>
-                <Paragraph style={styles.paragraph}>Note: {visit.notes}</Paragraph>
-              </View>
+            <Paragraph style={styles.header}>Dettagli visita</Paragraph>
+            <Chip icon={visit.eggs ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Uova: {visit.eggs ? 'Presenti' : 'Assenti'}</Chip>
+            <Chip icon={visit.queen ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Regina: {visit.queen ? 'Presente' : 'Assente'}</Chip>
+            <Chip style={styles.chipStyle} textStyle={styles.chipText}>Covata: {visit.covata}</Chip>
+            <Chip icon={visit.celleReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Celle Reali: {visit.celleReali ? 'Sì' : 'No'}</Chip>
+            <Chip icon={visit.cupoliniReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Cupolini Reali: {visit.cupoliniReali ? 'Sì' : 'No'}</Chip>
+            <Chip style={styles.chipStyle} textStyle={styles.chipText}>Note: {visit.notes}</Chip>
           </Card.Content>
         </Card>
       ))}
@@ -154,17 +75,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       padding: 20,
-    },
-    card: {
-      marginVertical: 8,
-      backgroundColor: '#f0f0f0', // Light grey background for card
-      elevation: 2,
-    },
-    cardHive: {
-      marginVertical: 8,
-      backgroundColor: '#FFD670', // Light grey background for hive card
-      elevation: 2,
-
+      marginVertical: 20
     },
     row: {
       flexDirection: 'row',
@@ -179,6 +90,30 @@ const styles = StyleSheet.create({
     iconButton: {
       flexShrink: 1, 
     },
+    cardHive: {
+        margin: 10,
+        elevation: 4,
+        borderRadius: 8,
+        backgroundColor: '#FFD670'
+      },
+      cardVisit:{
+        margin: 10,
+        elevation: 4,
+        borderRadius: 8
+      },
+      header: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+      },
+      chipStyle: {
+        marginVertical: 4,
+        paddingHorizontal: 5,
+        justifyContent: 'flex-start',
+      },
+      chipText: {
+        fontSize: 16,
+      },
   });
 
 export default HiveDetailScreen;

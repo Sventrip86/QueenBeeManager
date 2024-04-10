@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { Card, Button, Paragraph, IconButton, List } from 'react-native-paper';
+import { View, StyleSheet, ScrollView , TouchableOpacity} from 'react-native';
+import { Card, Button, Paragraph, IconButton, List, Text , Chip} from 'react-native-paper';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
 import { useFocusEffect } from '@react-navigation/native';
@@ -32,26 +32,37 @@ const HiveScreen = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Button
+       <Text variant="displaySmall" style={styles.title}>Le tue arnie</Text>
+      
+      <ScrollView>
+      {hives.map(hive => (
+        <TouchableOpacity
+      key={hive.id}
+      onPress={() => navigation.navigate('HiveVisitCreationScreen', { hiveId: hive.id })}
+      style={styles.hiveItem}
+    >
+      <View style={styles.listItemContainer}>
+        <List.Icon icon="hexagon-multiple"  />
+        <View style={styles.hiveInfo}>
+          <Text style={styles.hiveName}>{hive.name}</Text>
+          <View style={styles.chipsContainer}>
+            <Chip icon={hive.eggs ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Uova</Chip>
+            <Chip icon={hive.queen ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Regina</Chip>
+            <Chip style={styles.chipStyle} textStyle={styles.chipText}>Covata: {hive.covata}</Chip>
+            <Chip icon={hive.celleReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Celle Reali</Chip>
+            <Chip icon={hive.cupoliniReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Cupolini Reali</Chip>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+    ))}
+    <Button
         mode="contained"
        
         onPress={() => navigation.navigate('HiveCreationScreen', { apiaryId })}>
           
         Aggiungi Arnia
       </Button>
-      <ScrollView>
-      {hives.map(hive => (
-      <List.Item
-        key={hive.id}
-        title={hive.name}
-        style={styles.hiveItem}
-        left={props => <List.Icon {...props} icon="hexagon-multiple" />}
-        onPress={() => navigation.navigate('HiveVisitCreationScreen', { hiveId: hive.id })}
-
-        
-        
-        />
-    ))}
       </ScrollView>
     </View>
   );
@@ -81,6 +92,32 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     marginRight: 8, // Space between label and icon or next element
+  },
+  title: {
+    textAlign: 'center'
+  }, 
+  listItemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  hiveInfo: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  hiveName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  chipsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 5,
+  },
+  chipStyle: {
+    margin: 4,
+  },
+  chipText: {
+    fontSize: 14,
   },
 });
 
