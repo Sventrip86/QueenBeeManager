@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, StyleSheet, ScrollView , TouchableOpacity} from 'react-native';
 import { Card, Button, Paragraph, IconButton, List, Text , Chip} from 'react-native-paper';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, collectionGroup } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -42,15 +42,25 @@ const HiveScreen = ({ navigation, route }) => {
       style={styles.hiveItem}
     >
       <View style={styles.listItemContainer}>
-        <List.Icon icon="hexagon-multiple"  />
+        <View style={styles.headerContainer}>
+        <List.Icon icon="hexagon-multiple" />
+        <Text style={styles.hiveName}>{hive.name}</Text>
+        </View>
+        
+
         <View style={styles.hiveInfo}>
-          <Text style={styles.hiveName}>{hive.name}</Text>
           <View style={styles.chipsContainer}>
+          <Text >Ultima visita: </Text>
+
+            <View style={styles.lastVisit}>
             <Chip icon={hive.eggs ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Uova</Chip>
             <Chip icon={hive.queen ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Regina</Chip>
             <Chip style={styles.chipStyle} textStyle={styles.chipText}>Covata: {hive.covata}</Chip>
             <Chip icon={hive.celleReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Celle Reali</Chip>
             <Chip icon={hive.cupoliniReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Cupolini Reali</Chip>
+            </View>
+           
+           
           </View>
         </View>
       </View>
@@ -72,53 +82,58 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    paddingHorizontal: 10, // Added horizontal padding
-  },
-  card: {
-    marginVertical: 8,
+    paddingHorizontal: 10, 
   },
   hiveItem: {
-    backgroundColor: '#fff', // Background color for hive items
-    borderRadius: 8,
-    borderWidth: 1, // Add border width
-    borderColor: 'black', // Add border color
+    backgroundColor: '#FFD670', 
+    borderRadius: 8, 
+    borderWidth: 1,
+    borderColor: '#4C2E05', 
     marginVertical: 10,
-    marginHorizontal: 10, // Add horizontal margin
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4, // Spacing between each row
-  },
-  paragraph: {
-    marginRight: 8, // Space between label and icon or next element
+    marginHorizontal: 10,
+    padding: 10, 
+    elevation: 2, 
   },
   title: {
-    textAlign: 'center'
-  }, 
+    textAlign: 'center',
+    fontSize: 25, 
+    fontWeight: 'bold',
+    marginBottom: 20, // Adds more space above the ScrollView
+  },
   listItemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
   },
   hiveInfo: {
-    flex: 1,
     marginLeft: 10,
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center', // Ensures icon and text are aligned
+    marginBottom: 10, // Adds spacing between header and chips
+  },
+  lastVisit: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   hiveName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginLeft: 10,
   },
   chipsContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
     marginTop: 5,
   },
   chipStyle: {
     margin: 4,
+    backgroundColor: '#f0f0f0', // Consider a background color for chips for distinction
   },
   chipText: {
     fontSize: 14,
   },
 });
+
+
 
 export default HiveScreen;
