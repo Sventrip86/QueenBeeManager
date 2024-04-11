@@ -6,6 +6,7 @@ import { collection, query, where, getDocs, deleteDoc, doc } from 'firebase/fire
 import { FIREBASE_AUTH } from '../config/firebaseConfig';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
 import { List, Dialog, Portal, Paragraph, Text, IconButton, Menu, Modal } from 'react-native-paper';
+import { useSelectedApiary } from '../components/SelectedApiaryContex'
 
 
 
@@ -19,6 +20,8 @@ const ApiaryScreen = () => {
   const [isApiarySelected, setIsApiarySelected] = useState(false);
   const [apiariesAvailable, setApiariesAvailable] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
+
+
 
 
   const toggleMenu = (apiaryId) => setMenuVisible(prev => ({ ...prev, [apiaryId]: !prev[apiaryId] }));
@@ -50,6 +53,9 @@ const ApiaryScreen = () => {
     }, [])
   );
 
+  const { setSelectedApiaryId } = useSelectedApiary();
+
+
 
 
   const handleDialogDismiss = () => {
@@ -62,9 +68,11 @@ const ApiaryScreen = () => {
   }
 
   const handleSelectApiary = (apiaryId) => {
+    setSelectedApiaryId(apiaryId);
 
     setSelectedApiary(apiaryId);
     setIsApiarySelected(true);
+
     navigation.navigate('HivesTab', { screen: 'Hives', params: { apiaryId } });
   }
 
@@ -103,7 +111,7 @@ const ApiaryScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium" style={styles.text}>I tuoi apiari </Text>
+      <Text variant="headlineMedium" style={styles.title}>I tuoi apiari </Text>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {apiaries.map(apiary => (
           <List.Item
@@ -246,7 +254,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     marginBottom: 15,
-  }
+  }, 
+  title: {
+    textAlign: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginBottom: 20, 
+  },
  
 });
 
