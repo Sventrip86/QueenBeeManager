@@ -40,15 +40,18 @@ const AppNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="beehive-outline" color={color} size={size} />
           ),
+          tabBarLabel: 'Apiari'
+
         }} 
       />
       <Tab.Screen 
         name="HivesTab" 
         component={HiveStackNavigator}
+        
         options={{
           tabBarIcon: ({ color, size }) => ( <MaterialCommunityIcons name="hexagon-multiple" color={color} size={size} />
           ),                   tabBarButton: renderTabBarButton,
-
+          tabBarLabel: 'Arnie'
 
         }} 
       />
@@ -59,6 +62,8 @@ const AppNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="beekeeper" color={color} size={size} />
           ),
+          tabBarLabel: 'Profilo'
+
         }} 
       />
     </Tab.Navigator>

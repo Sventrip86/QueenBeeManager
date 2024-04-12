@@ -73,7 +73,7 @@ const ApiaryScreen = () => {
     setSelectedApiary(apiaryId);
     setIsApiarySelected(true);
 
-    navigation.navigate('HivesTab', { screen: 'Hives', params: { apiaryId } });
+    navigation.navigate('HivesTab', { screen: 'Arnie', params: { apiaryId } });
   }
 
   const handleDeleteApiary = async (apiaryId) => {
