@@ -11,7 +11,7 @@ const HiveStackNavigator = () => {
 <HiveStack.Navigator initialRouteName="Hives">
 
       <HiveStack.Screen name="Arnie" component={HiveScreen}  options={{ headerShown: false }} />
-      <HiveStack.Screen name="HiveCreationScreen" component={HiveCreationScreen}  />
+      <HiveStack.Screen name="HiveCreationScreen" component={HiveCreationScreen}  options={{ headerShown: false }}/>
       <HiveStack.Screen name="HiveDetailScreen" component={HiveDetailScreen} />
 <HiveStack.Screen name="HiveVisitCreationScreen" component={HiveVisitCreationScreen} />
 

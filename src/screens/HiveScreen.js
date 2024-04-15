@@ -1,30 +1,31 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Card, Button, Paragraph, IconButton, List, Text, Chip } from 'react-native-paper';
-import { collection, query, where, getDocs, collectionGroup } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
 import { useFocusEffect } from '@react-navigation/native';
 
 
 const HiveScreen = ({ navigation, route }) => {
-  const [hives, setHives] = useState([]);
-  const apiaryId = route.params.apiaryId;
+  const [hives, setHives] = useState([]); // empty array initial state
+  const apiaryId = route.params.apiaryId; // passed from ApiaryScreen 
 
   const fetchHives = async () => {
     const q = query(collection(FIRESTORE_DB, 'hives'), where('apiaryId', '==', apiaryId));
     const querySnapshot = await getDocs(q);
-    const hivesData = [];
-    querySnapshot.forEach((doc) => {
+    const hivesData = []; 
+    querySnapshot.forEach((doc) => {   // each doc pushed into hivesData array of obj with id and all data
       hivesData.push({ id: doc.id, ...doc.data() });
     });
-    setHives(hivesData);
+    setHives(hivesData); // set state 
   };
 
-
+  // screen focus rerender and refetch just if apiaryId changes
   useFocusEffect(
     useCallback(() => {
       fetchHives();
-      return () => { };
+      // clean up function ?? TODO ??
+      // return () => {  }; 
     }, [apiaryId])
   );
 

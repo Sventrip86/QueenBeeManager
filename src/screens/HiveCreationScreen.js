@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { TextInput, Button, Switch, List, Snackbar } from 'react-native-paper';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../config/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
@@ -16,15 +16,9 @@ const HiveCreationScreen = ({ route }) => {
   const navigation = useNavigation();
   const [visibleSnack, setVisibleSnack] = useState(false);
 
-
   const openSnackBar = () => setVisibleSnack(!visibleSnack)
 
   const onDismissSnackBar = () => setVisibleSnack(false)
-
-
-
-
-
 
   const handleSubmit = async () => {
     const apiaryId = route.params?.apiaryId;
@@ -44,16 +38,15 @@ const HiveCreationScreen = ({ route }) => {
         apiaryId, // Passed from the Apiary screen
         userId: FIREBASE_AUTH.currentUser.uid,
         creationDate: new Date().toISOString(),
-
       });
+      // Successful creation open snack and then navigate back
       openSnackBar();
       setTimeout(() => {
-        navigation.navigate("Hives", { apiaryId });
-
-      }, 3000);
-      // Handle successful creation
+        navigation.navigate("Arnie", { apiaryId });
+      }, 2000);
+      
     } catch (error) {
-      // Handle errors
+      // TODO display error messages
       console.error(error);
     }
   };
@@ -64,14 +57,22 @@ const HiveCreationScreen = ({ route }) => {
         label="Nome arnia"
         value={name}
         onChangeText={setName}
+        left={<TextInput.Icon icon="archive" />}
+
         style={styles.input}
       />
+      
       <List.Item
-        title="Uova"
+        title="Uova"        
+        left={props => <List.Icon {...props} icon="egg" />}
+
+
         right={() => <Switch value={eggs} onValueChange={setEggs} />}
       />
       <List.Item
         title="Regina"
+        left={props => <List.Icon {...props} icon="chess-queen" />}
+
         right={() => <Switch value={queen} onValueChange={setQueen} />}
       />
       <TextInput
@@ -83,10 +84,13 @@ const HiveCreationScreen = ({ route }) => {
       />
       <List.Item
         title="Cupolini Reali"
+        left={props => <List.Icon {...props} icon="chart-scatter-plot-hexbin" />}
         right={() => <Switch value={cupoliniReali} onValueChange={setCupoliniReali} />}
       />
       <List.Item
         title="Celle Reali"
+        left={props => <List.Icon {...props} icon="hexagon-multiple-outline" />}
+
         right={() => <Switch value={celleReali} onValueChange={setCelleReali} />}
       />
       <TextInput
@@ -94,14 +98,15 @@ const HiveCreationScreen = ({ route }) => {
         value={notes}
         onChangeText={setNotes}
         multiline
+        left={<TextInput.Icon icon="lead-pencil" />}
+
         style={styles.input}
       />
-      <Button mode="contained" onPress={handleSubmit}>Crea arnia</Button>
+      <Button icon="archive-plus" mode="contained" onPress={handleSubmit} >Crea arnia</Button>
 
       <Snackbar
         visible={visibleSnack}
         onDismiss={onDismissSnackBar}
-
         style={{ backgroundColor: 'green' }}
       >
         Arnia creata con successo!
