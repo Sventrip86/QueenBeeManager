@@ -117,7 +117,7 @@ const ApiaryScreen = () => {
           <List.Item
             key={apiary.id}
             title={apiary.name}
-            description={`Posizione: ${apiary.location}`}
+            description={`Posizione: ${apiary.location} Coordinate: ${apiary.position}`}
             left={props => <List.Icon {...props} icon="bee-flower" />}
 
             onPress={() => handleSelectApiary(apiary.id)}

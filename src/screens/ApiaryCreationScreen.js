@@ -1,16 +1,22 @@
-import React, {useState} from "react";
-import { View, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Alert, Text } from 'react-native';
 import { collection, addDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from "../config/firebaseConfig";
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { Button, TextInput, Dialog, Portal, Snackbar } from 'react-native-paper';
 
+import * as Location from 'expo-location';
+
+
 
 
 
 
 const ApiaryCreationScreen = () => {
+
+  const [position, setPosition] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
     const [apiaryName, setApiaryName] = useState('')
     const [location, setLocation] = useState('')
@@ -32,6 +38,7 @@ const ApiaryCreationScreen = () => {
             await addDoc(collection(FIRESTORE_DB, "apiaries"), {
               name: apiaryName,
               location: location,
+              position: position,
               creationDate: new Date().toISOString(),
               userId: FIREBASE_AUTH.currentUser.uid, 
             });
@@ -53,6 +60,22 @@ const ApiaryCreationScreen = () => {
           }
         };
 
+        // Expo Location https://docs.expo.dev/versions/latest/sdk/location/
+        useEffect(() => {
+          (async () => {
+            
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+              setErrorMsg('Permission to access location was denied');
+              return;
+            }
+      
+            let position = await Location.getCurrentPositionAsync({});
+            setPosition(position);
+          })();
+        }, []);
+      
+       
 
 
     return (
@@ -77,7 +100,10 @@ const ApiaryCreationScreen = () => {
       <Button 
        style={styles.button}
        labelStyle={styles.buttonLabel}
-       mode="contained" onPress={handleCreateApiary} >Crea Apiario</Button>
+       mode="contained" onPress={handleCreateApiary} 
+       disabled={isLoading}
+  loading={isLoading}
+  >Crea Apiario</Button>
 
   <Snackbar 
           visible={visibleSnack}
