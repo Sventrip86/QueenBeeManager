@@ -7,6 +7,8 @@ import { FIREBASE_AUTH } from '../config/firebaseConfig';
 import { FIRESTORE_DB } from '../config/firebaseConfig';
 import { List, Dialog, Portal, Paragraph, Text, IconButton, Menu, Modal } from 'react-native-paper';
 import { useSelectedApiary } from '../components/SelectedApiaryContex'
+import * as Linking from 'expo-linking';
+
 
 
 
@@ -35,6 +37,8 @@ const ApiaryScreen = () => {
       apiariesData.push({ id: doc.id, ...doc.data() });
     });
     setApiaries(apiariesData);
+    console.log(apiariesData)
+
 
     // Show dialog if no apiaries are found
 
@@ -102,6 +106,18 @@ const ApiaryScreen = () => {
 
   }
 
+
+  // function parsePosition(jsonString) {
+  //   try {
+  //     return JSON.parse(jsonString);
+  //   } catch (error) {
+  //     console.error('Failed to parse position JSON', error);
+  //     return null; // or return a default object
+  //   }
+  // }
+
+// ******Open in Google  TODO
+
   // Show modal when the screen first loads and apiaries are available but no selected
   useEffect(() => {
     if (apiariesAvailable && !selectedApiary) {
@@ -111,20 +127,28 @@ const ApiaryScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium" style={styles.title}>I tuoi apiari </Text>
+      <Text variant="headlineMedium" style={styles.title}>
+        I tuoi apiari{" "}
+      </Text>
       <ScrollView contentContainerStyle={styles.contentContainer}>
-        {apiaries.map(apiary => (
+        {apiaries.map((apiary) => (
           <List.Item
             key={apiary.id}
             title={apiary.name}
-            description={`Posizione: ${apiary.location} Coordinate: ${apiary.position}`}
-            left={props => <List.Icon {...props} icon="bee-flower" />}
-
+            description={`Posizione: ${apiary.location}`}
+            // left={(props) => <List.Icon {...props} icon="bee-flower" />}
             onPress={() => handleSelectApiary(apiary.id)}
-
-            style={selectedApiary === apiary.id ? styles.selectedItem : styles.listItem}
+            style={
+              selectedApiary === apiary.id
+                ? styles.selectedItem
+                : styles.listItem
+            }
             right={() => (
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                 <Button 
+          onPress={() => null}
+          mode="outlined">Google Maps</Button>      
                 <Menu
                   visible={menuVisible[apiary.id]}
                   onDismiss={() => toggleMenu(apiary.id)}
@@ -133,22 +157,36 @@ const ApiaryScreen = () => {
                       icon="dots-vertical"
                       onPress={() => toggleMenu(apiary.id)}
                     />
-                  }>
-                  <Menu.Item leadingIcon='pencil' onPress={() => handleUpdateApiary(apiary.id)} title="Modifica" />
-                  <Menu.Item leadingIcon='delete' onPress={() => handleDeleteApiary(apiary.id)} title="Elimina" />
+                  }
+                >
+                  <Menu.Item
+                    leadingIcon="pencil"
+                    onPress={() => handleUpdateApiary(apiary.id)}
+                    title="Modifica"
+                  />
+                  <Menu.Item
+                    leadingIcon="delete"
+                    onPress={() => handleDeleteApiary(apiary.id)}
+                    title="Elimina"
+                  />
                 </Menu>
+                 
               </View>
             )}
           />
         ))}
-        <Button mode="contained" title="Create apiary" onPress={() => {
-
-          navigation.navigate('ApiaryCreationScreen')
-        }
-        }
-        >Crea Apiario </Button>
-
+        <Button
+          mode="contained"
+          title="Create apiary"
+          onPress={() => {
+            navigation.navigate("ApiaryCreationScreen");
+          }}
+        >
+          Crea Apiario
+        </Button>
       </ScrollView>
+
+      {/**************    MODALS    ***********/}
 
       <Modal
         visible={isDialogVisible}
@@ -176,7 +214,12 @@ const ApiaryScreen = () => {
         contentContainerStyle={styles.modalContent}
       >
         <View style={styles.modalInnerContent}>
-          <IconButton icon="alert-box" size={50} iconColor='#F71735' style={styles.iconStyle} />
+          <IconButton
+            icon="alert-box"
+            size={50}
+            iconColor="#F71735"
+            style={styles.iconStyle}
+          />
           <Text style={styles.textStyle}>
             Nessun apiario selezionato! Seleziona un apiario dalla lista
           </Text>
@@ -189,8 +232,6 @@ const ApiaryScreen = () => {
           </Button>
         </View>
       </Modal>
-
-
     </View>
   );
 };
@@ -233,13 +274,6 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 20,
     borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
     elevation: 5,
   },
   modalInnerContent: {

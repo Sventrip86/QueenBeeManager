@@ -5,12 +5,9 @@ import { FIRESTORE_DB } from "../config/firebaseConfig";
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { Button, TextInput, Dialog, Portal, Snackbar } from 'react-native-paper';
+import MapView from 'react-native-maps';
 
 import * as Location from 'expo-location';
-
-
-
-
 
 
 const ApiaryCreationScreen = () => {
@@ -38,7 +35,7 @@ const ApiaryCreationScreen = () => {
             await addDoc(collection(FIRESTORE_DB, "apiaries"), {
               name: apiaryName,
               location: location,
-              position: position,
+              position: JSON.stringify(position),
               creationDate: new Date().toISOString(),
               userId: FIREBASE_AUTH.currentUser.uid, 
             });
@@ -49,7 +46,7 @@ const ApiaryCreationScreen = () => {
             }
            ,3000);
             //console.log("Apiary created successfully!");
-      //Alert.alert("Success", "Apiary created successfully!"); // Success feedback
+            //Alert.alert("Success", "Apiary created successfully!"); // Success feedback
             // Handle successful apiary creation
           } catch (error) {
             // Handle errors
@@ -97,6 +94,7 @@ const ApiaryCreationScreen = () => {
         left={<TextInput.Icon icon="compass" />}
         style={styles.input}
       />
+<MapView style={styles.map} />
       <Button 
        style={styles.button}
        labelStyle={styles.buttonLabel}
@@ -104,6 +102,8 @@ const ApiaryCreationScreen = () => {
        disabled={isLoading}
   loading={isLoading}
   >Crea Apiario</Button>
+        
+
 
   <Snackbar 
           visible={visibleSnack}
@@ -140,6 +140,10 @@ button: {
 },
 buttonLabel: {
     color: 'white', // For contained buttons
+},
+map: {
+  width: '80%',
+  height: '40%',
 },
 });
 
