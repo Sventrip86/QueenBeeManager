@@ -146,9 +146,9 @@ const ApiaryScreen = () => {
             right={() => (
               
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                 <Button 
+                 {/* <Button 
           onPress={() => null}
-          mode="outlined">Google Maps</Button>      
+          mode="outlined">Google Maps</Button>       */}
                 <Menu
                   visible={menuVisible[apiary.id]}
                   onDismiss={() => toggleMenu(apiary.id)}
