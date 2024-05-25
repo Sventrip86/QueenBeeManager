@@ -10,6 +10,7 @@ import {
   Dialog,
   Portal,
   Snackbar,
+  HelperText,
 } from "react-native-paper";
 import MapView, { Marker } from "react-native-maps";
 
@@ -28,6 +29,8 @@ const ApiaryCreationScreen = () => {
   const openSnackBar = () => setVisibleSnack(!visibleSnack);
   const onDismissSnackBar = () => setVisibleSnack(false);
 
+  const [ helperText, setHelperText ] = useState('')
+
   const handleCreateApiary = async () => {
     setIsLoading(true);
     if (!apiaryName || !location) {
@@ -40,13 +43,14 @@ const ApiaryCreationScreen = () => {
         location: location,
         position: JSON.stringify(position),
         creationDate: new Date().toISOString(),
+        creationDateString: getCreationDate(),
         userId: FIREBASE_AUTH.currentUser.uid,
       });
       openSnackBar();
 
       setTimeout(() => {
         navigation.navigate("ApiaryScreen");
-      }, 3000);
+      }, 2000);
       //console.log("Apiary created successfully!");
       //Alert.alert("Success", "Apiary created successfully!"); // Success feedback
       // Handle successful apiary creation
@@ -79,12 +83,29 @@ const ApiaryCreationScreen = () => {
     })();
   }, []);
 
+  // conditional text location variable 
   let locationText = "Waiting permission...";
   if (errorMsg) {
     locationText = errorMsg;
   } else if (position) {
     locationText = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
   }
+
+  // check  for errors in name in textInput
+  const hasError = () => {
+    return !apiaryName
+  }
+
+  // getting date formatted as string 
+  const getCreationDate = () => {
+    let today = new Date()
+    const month = today.getMonth()
+    const day = today.getDate()
+    const year = today.getFullYear()
+    return `${day}/${month}/${year}`
+  }
+
+
 
   return (
     <View style={styles.container}>
@@ -100,6 +121,9 @@ const ApiaryCreationScreen = () => {
         theme={{ colors: { primary: "green" } }}
         style={styles.input}
       />
+      <HelperText type="error" visible={hasError()}>
+      Name is required
+      </HelperText>
       <Text style={styles.paragraph}>Posizione: {locationText}</Text>
       
       {position && (
