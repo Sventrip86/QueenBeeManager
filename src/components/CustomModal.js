@@ -1,51 +1,45 @@
 import React from 'react';
-import {  View, Text, StyleSheet,  } from 'react-native';
-import { Modal, Button } from 'react-native-paper';
+import {  View,  StyleSheet,  } from 'react-native';
+import { Modal, Text, Button, IconButton } from 'react-native-paper';
 
-const CustomModal = ({ visible, onClose, message }) => {
+const CustomModal = ({ visible, onDismiss, icon, message, buttonText, onButtonPress, iconColor }) => {
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
-    >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>{message}</Text>
-          <Button mode="contained" onPress={onClose} title="Close" />
-        </View>
+    <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={styles.modalContent}>
+      <View style={styles.modalInnerContent}>
+        {icon && <IconButton icon={icon} size={50} style={styles.iconStyle} iconColor={iconColor} />}
+        <Text style={styles.textStyle}>{message}</Text>
+        <Button mode="contained" onPress={onButtonPress} style={styles.buttonStyle}>
+          {buttonText}
+        </Button>
       </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
+  modalContent: {
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    padding: 20,
+    margin: 20,
+    borderRadius: 10,
     elevation: 5,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  modalInnerContent: {
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    height: 200,
   },
-});
+  iconStyle: {
+    marginBottom: 10,
+  },
+  textStyle: {
+    textalign: 'center',
+    fontSize: 20,
+    marginBottom: 15,
+    },
+    buttonStyle: {
+    marginTop: 10,
+    },
+    });
 
 export default CustomModal;

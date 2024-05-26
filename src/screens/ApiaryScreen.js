@@ -25,6 +25,7 @@ import {
 import { useSelectedApiary } from "../components/SelectedApiaryContex";
 import * as Linking from "expo-linking";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
+import CustomModal from "../components/CustomModal";
 
 const ApiaryScreen = () => {
   const navigation = useNavigation();
@@ -131,7 +132,7 @@ const ApiaryScreen = () => {
   }, [apiariesAvailable, selectedApiary]);
 
 
-  
+
 
   return (
     <View style={styles.container}>
@@ -144,8 +145,9 @@ const ApiaryScreen = () => {
         />
       ) : (
         <>
+     
           <Text variant="headlineMedium" style={styles.title}>
-            I tuoi apiari{" "}
+            I tuoi apiari
           </Text>
           <ScrollView contentContainerStyle={styles.contentContainer}>
             {apiaries.map((apiary) => (
@@ -203,50 +205,25 @@ const ApiaryScreen = () => {
 
           {/**************    MODALS    ***********/}
 
-          <Modal
-            visible={isDialogVisible}
-            onDismiss={handleDialogSelectApiary}
-            contentContainerStyle={styles.modalContent}
-          >
-            <View style={styles.modalInnerContent}>
-              <IconButton icon="dots-vertical" style={styles.iconStyle} />
-              <Text style={styles.textStyle}>
-                Nessun apiario presente. Non esistono apiari, creane subito uno!
-              </Text>
-              <Button
-                mode="contained"
-                onPress={handleDialogDismiss}
-                style={styles.buttonStyle}
-              >
-                OK
-              </Button>
-            </View>
-          </Modal>
-
-          <Modal
+          <CustomModal
             visible={isDialogSelectApiaryVisible}
             onDismiss={handleDialogSelectApiary}
-            contentContainerStyle={styles.modalContent}
-          >
-            <View style={styles.modalInnerContent}>
-              <IconButton
-                icon="alert-box"
-                size={50}
-                iconColor="#F71735"
-                style={styles.iconStyle}
-              />
-              <Text style={styles.textStyle}>
-                Nessun apiario selezionato! Seleziona un apiario dalla lista
-              </Text>
-              <Button
-                mode="contained"
-                onPress={handleDialogSelectApiary}
-                style={styles.buttonStyle}
-              >
-                OK
-              </Button>
-            </View>
-          </Modal>
+            icon="alert-circle"
+            iconColor='red'
+            message="Nessun apiario selezionato! Seleziona un apiario dalla lista"
+            buttonText="OK"
+            onButtonPress={handleDialogSelectApiary}
+          />
+
+<CustomModal
+            visible={isDialogVisible}
+            onDismiss={handleDialogSelectApiary}
+            icon="dots-vertical"
+            message="Nessun apiario presente. Non esistono apiari, creane subito uno!"
+            buttonText="OK"
+            onButtonPress={handleDialogDismiss}
+          />
+
         </>
       )}
     </View>
