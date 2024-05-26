@@ -58,21 +58,17 @@ const HiveCreationScreen = ({ route }) => {
         value={name}
         onChangeText={setName}
         left={<TextInput.Icon icon="archive" />}
-
         style={styles.input}
       />
       
       <List.Item
         title="Uova"        
         left={props => <List.Icon {...props} icon="egg" />}
-
-
         right={() => <Switch value={eggs} onValueChange={setEggs} />}
       />
       <List.Item
         title="Regina"
         left={props => <List.Icon {...props} icon="chess-queen" />}
-
         right={() => <Switch value={queen} onValueChange={setQueen} />}
       />
       <TextInput

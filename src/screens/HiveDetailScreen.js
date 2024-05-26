@@ -34,35 +34,6 @@ const HiveDetailScreen = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-        {/* {hive && (
-            <TouchableOpacity key={hive.id}             style={styles.hiveItem}
-            mode="outlined">
-             <View style={styles.listItemContainer}>
-              <View style={styles.headerContainer}>
-                <List.Icon icon="hexagon-multiple" />
-                <Text style={styles.hiveName}>{hive.name}  </Text>
-                <Text > {hive.creationDate}</Text>
-
-              </View>
-
-            <Card.Content>
-            
-              <Chip icon={hive.eggs ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Uova: {hive.eggs ? 'Presenti' : 'Assenti'}</Chip>
-              <Chip icon={hive.queen ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Regina: {hive.queen ? 'Presente' : 'Assente'}</Chip>
-              <Chip style={styles.chipStyle} textStyle={styles.chipText}>Covata: {hive.covata}</Chip>
-              <Chip icon={hive.celleReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Celle Reali: {hive.celleReali ? 'Sì' : 'No'}</Chip>
-              <Chip icon={hive.cupoliniReali ? 'check' : 'close'} style={styles.chipStyle} textStyle={styles.chipText}>Cupolini Reali: {hive.cupoliniReali ? 'Sì' : 'No'}</Chip>
-              <Chip style={styles.chipStyle} textStyle={styles.chipText}>Note: {hive.notes}</Chip>
-            </Card.Content>
-            <View/>
-            </View>
-
-          </TouchableOpacity>
-
-          )} */}
-
-
-
 
       {visits.map(visit => (
         <TouchableOpacity
@@ -74,8 +45,6 @@ const HiveDetailScreen = ({ route }) => {
                 <List.Icon icon="hexagon-multiple" />
                 <Text style={styles.hiveName}>{hive.name}</Text>
               </View>
-
-
               <View style={styles.hiveInfo}>
                 <View style={styles.chipsContainer}>
                   <Text >Data visita: {visit.visitedAt}</Text>

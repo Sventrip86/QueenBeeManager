@@ -21,6 +21,8 @@ import {
 import { useSelectedApiary } from "../components/SelectedApiaryContex";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import CustomModal from "../components/CustomModal";
+import { Badge } from 'react-native-paper';
+
 
 const ApiaryScreen = () => {
   const navigation = useNavigation();
@@ -116,12 +118,10 @@ const ApiaryScreen = () => {
     <View style={styles.container}>
       {/* show ActivityIndicator before fetch terminates */}
       {isLoading ? (
-        <ActivityIndicator animating={true} color={MD2Colors.green700} size="large" />
+        <ActivityIndicator animating={true} color={MD2Colors.yellow700} size="large" />
       ) : (
         <>
-          <Text variant="headlineMedium" style={styles.title}>
-            I tuoi apiari
-          </Text>
+          <Text variant="headlineMedium" style={styles.title}>I TUOI APIARI</Text>
           <ScrollView contentContainerStyle={styles.contentContainer}>
             {/* map apiaries and render a list with List.Item */}
             {apiaries.map((apiary) => (
@@ -133,6 +133,10 @@ const ApiaryScreen = () => {
                 style={selectedApiary === apiary.id ? styles.selectedItem : styles.listItem}
                 right={() => (
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      {/* testing badge component */}
+                      <Badge style={{ backgroundColor: 'green', margin: 2}}>test</Badge>
+                      <Badge style={{ backgroundColor: 'red', margin: 2}}>4</Badge>
+
                     <Menu
                       visible={menuVisible[apiary.id]}
                       onDismiss={() => toggleMenu(apiary.id)}
@@ -185,6 +189,7 @@ const ApiaryScreen = () => {
             visible={isDialogVisible}
             onDismiss={handleDialogSelectApiary}
             icon="dots-vertical"
+            iconColor="red"
             message="Nessun apiario presente. Non esistono apiari, creane subito uno!"
             buttonText="OK"
             onButtonPress={handleDialogDismiss}

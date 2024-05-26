@@ -27,7 +27,7 @@ const AppNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Apiaries"
+        name="APIARI"
         component={ApiaryStackNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
