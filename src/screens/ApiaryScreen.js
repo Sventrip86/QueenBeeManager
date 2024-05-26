@@ -23,7 +23,6 @@ import {
   Modal,
 } from "react-native-paper";
 import { useSelectedApiary } from "../components/SelectedApiaryContex";
-import * as Linking from "expo-linking";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import CustomModal from "../components/CustomModal";
 
@@ -32,18 +31,17 @@ const ApiaryScreen = () => {
   const [apiaries, setApiaries] = useState([]);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [selectedApiary, setSelectedApiary] = useState(false);
-  const [isDialogSelectApiaryVisible, setDialogSelectApiaryVisible] =
-    useState(false);
-  const [isApiarySelected, setIsApiarySelected] = useState(false);
+  const [isDialogSelectApiaryVisible, setDialogSelectApiaryVisible] = useState(false);
   const [apiariesAvailable, setApiariesAvailable] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const toggleMenu = (apiaryId) =>
-    setMenuVisible((prev) => ({ ...prev, [apiaryId]: !prev[apiaryId] }));
+  // toggle menu visible for all the apiaries in the list 
+  const toggleMenu = (apiaryId) => setMenuVisible((prev) => ({ ...prev, [apiaryId]: !prev[apiaryId] }));
 
+  // fetch apiaries form Firestore and update apiaries state 
   const fetchApiaries = async () => {
-    setIsLoading(true);
+    setIsLoading(true); // display loading ActivityIndicator
     try {
       const q = query(
         collection(FIRESTORE_DB, "apiaries"),
@@ -54,11 +52,9 @@ const ApiaryScreen = () => {
       querySnapshot.forEach((doc) => {
         apiariesData.push({ id: doc.id, ...doc.data() });
       });
-      setApiaries(apiariesData);
-      console.log(apiariesData);
+      setApiaries(apiariesData); // set state apiaries passing  apiariesData 
 
-      // Show dialog if no apiaries are found
-
+      //check if there are no apiaries then display alert modal 
       if (apiariesData.length === 0) {
         setIsDialogVisible(true);
         setApiariesAvailable(false);
@@ -66,86 +62,66 @@ const ApiaryScreen = () => {
         setApiariesAvailable(true);
       }
     } catch (error) {
+      // TODO i need to display a dialog or alert to the user *************
       console.error("Error fetching apiaries: ", error);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // hide loading ActivityIndicator
     }
   };
 
+  // call fetchApiaries() on every screen focus
   useFocusEffect(
     useCallback(() => {
       fetchApiaries();
     }, [])
   );
+  
+  // check if there are apiaries available but no selected apiary when component updates
+  useEffect(() => {
+    if (apiariesAvailable && !selectedApiary) {
+      setDialogSelectApiaryVisible(true);
+    }
+  }, [apiariesAvailable, selectedApiary, apiaries]);
 
   const { setSelectedApiaryId } = useSelectedApiary();
 
+    // dismiss dialog and navigate to ApiaryCreationScreen
   const handleDialogDismiss = () => {
     setIsDialogVisible(false);
-    navigation.navigate("ApiaryCreationScreen"); // Navigate to creation screen
+    navigation.navigate("ApiaryCreationScreen");
   };
 
   const handleDialogSelectApiary = () => {
     setDialogSelectApiaryVisible(false);
   };
 
+    // handle the selection of an apiary
   const handleSelectApiary = (apiaryId) => {
     setSelectedApiaryId(apiaryId);
-
     setSelectedApiary(apiaryId);
-    setIsApiarySelected(true);
-
     navigation.navigate("HivesTab", { screen: "Arnie", params: { apiaryId } });
   };
 
+  // handle deletion of the apiary and its hives
   const handleDeleteApiary = async (apiaryId) => {
     try {
-      // First, delete all hives within the apiary
       const hivesRef = collection(FIRESTORE_DB, "apiaries", apiaryId, "hives");
       const querySnapshot = await getDocs(hivesRef);
       await Promise.all(querySnapshot.docs.map((doc) => deleteDoc(doc.ref)));
 
-      // Then, delete the apiary document
       await deleteDoc(doc(FIRESTORE_DB, "apiaries", apiaryId));
-
-      await fetchApiaries(); // refresh the list
-      // display dialog select apiary check
-      if (apiaries.length === 0) {
-        setIsDialogVisible(true); // No apiaries left, show dialog to create new one
-      } // elseif the user delete the selected apiary logic TODO
+      await fetchApiaries();
     } catch (error) {
       console.error("Error deleting apiary: ", error);
     }
   };
 
-  //************** TODO implement logic for updating the apiary
-  const handleUpdateApiary = (apiaryId) => {};
-
-
-  // ****** Open in Google Maps TODO
-
-  // Show modal when the screen first loads and apiaries are available but no selected
-  useEffect(() => {
-    if (apiariesAvailable && !selectedApiary) {
-      setDialogSelectApiaryVisible(true);
-    }
-  }, [apiariesAvailable, selectedApiary]);
-
-
-
-
   return (
     <View style={styles.container}>
-      {/* if its fetching display the loading indicator otherwise display the list of apiaries  */}
       {isLoading ? (
-        <ActivityIndicator
-          animating={true}
-          color={MD2Colors.green700}
-          size="large"
-        />
+        <ActivityIndicator animating={true} color={MD2Colors.green700} size="large" />
       ) : (
         <>
-     
           <Text variant="headlineMedium" style={styles.title}>
             I tuoi apiari
           </Text>
@@ -155,18 +131,10 @@ const ApiaryScreen = () => {
                 key={apiary.id}
                 title={apiary.name}
                 description={`Posizione: ${apiary.location} Creato il ${apiary.creationDateString}`}
-                // left={(props) => <List.Icon {...props} icon="bee-flower" />}
                 onPress={() => handleSelectApiary(apiary.id)}
-                style={
-                  selectedApiary === apiary.id
-                    ? styles.selectedItem
-                    : styles.listItem
-                }
+                style={selectedApiary === apiary.id ? styles.selectedItem : styles.listItem}
                 right={() => (
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    {/* <Button 
-          onPress={() => null}
-          mode="outlined">Google Maps</Button>       */}
                     <Menu
                       visible={menuVisible[apiary.id]}
                       onDismiss={() => toggleMenu(apiary.id)}
@@ -179,7 +147,7 @@ const ApiaryScreen = () => {
                     >
                       <Menu.Item
                         leadingIcon="pencil"
-                        onPress={() => handleUpdateApiary(apiary.id)}
+                        onPress={() => handleUpdateApiary(apiary.id)}   // ********* TODO 
                         title="Modifica"
                       />
                       <Menu.Item
@@ -194,7 +162,6 @@ const ApiaryScreen = () => {
             ))}
             <Button
               mode="contained"
-              title="Create apiary"
               onPress={() => {
                 navigation.navigate("ApiaryCreationScreen");
               }}
@@ -203,19 +170,17 @@ const ApiaryScreen = () => {
             </Button>
           </ScrollView>
 
-          {/**************    MODALS    ***********/}
-
           <CustomModal
             visible={isDialogSelectApiaryVisible}
             onDismiss={handleDialogSelectApiary}
             icon="alert-circle"
-            iconColor='red'
+            iconColor="red"
             message="Nessun apiario selezionato! Seleziona un apiario dalla lista"
             buttonText="OK"
             onButtonPress={handleDialogSelectApiary}
           />
 
-<CustomModal
+          <CustomModal
             visible={isDialogVisible}
             onDismiss={handleDialogSelectApiary}
             icon="dots-vertical"
@@ -223,12 +188,12 @@ const ApiaryScreen = () => {
             buttonText="OK"
             onButtonPress={handleDialogDismiss}
           />
-
         </>
       )}
     </View>
   );
 };
+
 
 // Define the styles
 const styles = StyleSheet.create({
