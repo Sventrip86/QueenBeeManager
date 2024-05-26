@@ -14,13 +14,9 @@ import { FIREBASE_AUTH } from "../config/firebaseConfig";
 import { FIRESTORE_DB } from "../config/firebaseConfig";
 import {
   List,
-  Dialog,
-  Portal,
-  Paragraph,
   Text,
   IconButton,
   Menu,
-  Modal,
 } from "react-native-paper";
 import { useSelectedApiary } from "../components/SelectedApiaryContex";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
@@ -83,9 +79,10 @@ const ApiaryScreen = () => {
     }
   }, [apiariesAvailable, selectedApiary, apiaries]);
 
+
   const { setSelectedApiaryId } = useSelectedApiary();
 
-    // dismiss dialog and navigate to ApiaryCreationScreen
+    // dismiss dialog and navigate to ApiaryCreationScreen cose there are no apiaries
   const handleDialogDismiss = () => {
     setIsDialogVisible(false);
     navigation.navigate("ApiaryCreationScreen");
@@ -108,7 +105,6 @@ const ApiaryScreen = () => {
       const hivesRef = collection(FIRESTORE_DB, "apiaries", apiaryId, "hives");
       const querySnapshot = await getDocs(hivesRef);
       await Promise.all(querySnapshot.docs.map((doc) => deleteDoc(doc.ref)));
-
       await deleteDoc(doc(FIRESTORE_DB, "apiaries", apiaryId));
       await fetchApiaries();
     } catch (error) {
@@ -118,6 +114,7 @@ const ApiaryScreen = () => {
 
   return (
     <View style={styles.container}>
+      {/* show ActivityIndicator before fetch terminates */}
       {isLoading ? (
         <ActivityIndicator animating={true} color={MD2Colors.green700} size="large" />
       ) : (
@@ -126,6 +123,7 @@ const ApiaryScreen = () => {
             I tuoi apiari
           </Text>
           <ScrollView contentContainerStyle={styles.contentContainer}>
+            {/* map apiaries and render a list with List.Item */}
             {apiaries.map((apiary) => (
               <List.Item
                 key={apiary.id}
@@ -160,6 +158,7 @@ const ApiaryScreen = () => {
                 )}
               />
             ))}
+            {/* button for the creation of a new apiary that navigate to the ApiaryCreationScreen */}
             <Button
               mode="contained"
               onPress={() => {
@@ -170,6 +169,8 @@ const ApiaryScreen = () => {
             </Button>
           </ScrollView>
 
+              {/* two CustomModal for no apiaries found and no apiaries selected */}
+              
           <CustomModal
             visible={isDialogSelectApiaryVisible}
             onDismiss={handleDialogSelectApiary}

@@ -52,9 +52,9 @@ const HiveVisitCreationScreen = ({route}) => {
             // if the creation is succesfull open the snack then navigate back 
             openSnackBar();
             setTimeout(() => {
-              navigation.navigate("Hives", { apiaryId });
+              navigation.navigate("Arnie", { apiaryId });
       
-            }, 3000);
+            }, 2000);
           } catch (error) {
             console.error(error);
           }
