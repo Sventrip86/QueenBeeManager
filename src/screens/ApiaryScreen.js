@@ -17,6 +17,7 @@ import {
   Text,
   IconButton,
   Menu,
+  
 } from "react-native-paper";
 import { useSelectedApiary } from "../components/SelectedApiaryContex";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
@@ -135,14 +136,28 @@ const ApiaryScreen = () => {
             {apiaries.map((apiary) => (
               <List.Item
                 key={apiary.id}
-                title={apiary.name}
-                description={`Posizione: ${apiary.location} Creato il ${apiary.creationDateString}`}
+                title={()=>
+                  <Text variant="titleLarge">
+  {apiary.name}
+                  </Text>
+                
+                }
+                description={() => (
+                 <View style={styles.descriptionContainer}>
+                     <Button compact={true} icon="pin" mode="elevated" style={styles.positionButton} onPress={() => console.log('Pressed')}>
+                        Posizione
+                      </Button>
+                     
+   
+                 <Text variant="titleSmall">Creato il {apiary.creationDateString}</Text> 
+                 </View>
+               
+                )}
                 onPress={() => handleSelectApiary(apiary.id)}
                 style={selectedApiary === apiary.id ? styles.selectedItem : styles.listItem}
                 right={() => (
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                      {/* testing badge component */}
-                      {apiary.hivesCount > 0 ?
+                      {apiary.hivesCount > 0 ? // conditional badge display
                         <Badge size='28' style={{ backgroundColor: '#48A43F', position: 'absolute', top: -23, right: -10, zIndex: 10, paddingHorizontal: 8 }}>
                           {apiary.hivesCount} ARNIE  
                         </Badge>
@@ -275,6 +290,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
   },
+  descriptionContainer: {
+    flexDirection: 'column',
+    width: 130
+    
+  },
+  positionButton: {
+    marginVertical: 10  }
 });
 
 export default ApiaryScreen;
