@@ -47,9 +47,17 @@ const ApiaryScreen = () => {
       );
       const querySnapshot = await getDocs(q);
       const apiariesData = [];
-      querySnapshot.forEach((doc) => {
-        apiariesData.push({ id: doc.id, ...doc.data() });
-      });
+      // querySnapshot.forEach((doc) => {
+      //   apiariesData.push({ id: doc.id, ...doc.data() });
+      // });
+      for(const doc of querySnapshot.docs){
+        const apiary = {id:doc.id, ...doc.data() }
+        const hivesQuery = query(collection(FIRESTORE_DB, 'hives'), where('apiaryId', '==', apiary.id)); // fetch hives for the apiary
+        const hivesSnapshot = await getDocs(hivesQuery);
+        apiary.hivesCount = hivesSnapshot.size; // count of hives for this apiary
+
+        apiariesData.push(apiary)
+      }
       setApiaries(apiariesData); // set state apiaries passing  apiariesData 
 
       //check if there are no apiaries then display alert modal 
@@ -134,9 +142,14 @@ const ApiaryScreen = () => {
                 right={() => (
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                       {/* testing badge component */}
-                      <Badge style={{ backgroundColor: 'green', margin: 2}}>test</Badge>
-                      <Badge style={{ backgroundColor: 'red', margin: 2}}>4</Badge>
-
+                      {apiary.hivesCount > 0 ?
+                        <Badge size='28' style={{ backgroundColor: '#48A43F', position: 'absolute', top: -23, right: -10, zIndex: 10, paddingHorizontal: 8 }}>
+                          {apiary.hivesCount} ARNIE
+                        </Badge>
+                        :
+                        null
+                      }
+                      
                     <Menu
                       visible={menuVisible[apiary.id]}
                       onDismiss={() => toggleMenu(apiary.id)}
@@ -145,6 +158,7 @@ const ApiaryScreen = () => {
                           icon="dots-vertical"
                           onPress={() => toggleMenu(apiary.id)}
                         />
+                        
                       }
                     >
                       <Menu.Item
