@@ -12,33 +12,28 @@ import {
 } from "firebase/firestore";
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
 import { FIRESTORE_DB } from "../config/firebaseConfig";
-import {
-  List,
-  Text,
-  IconButton,
-  Menu,
-  
-} from "react-native-paper";
+import { List, Text, IconButton, Menu } from "react-native-paper";
 import { useSelectedApiary } from "../components/SelectedApiaryContex";
 import { ActivityIndicator, MD2Colors } from "react-native-paper";
 import CustomModal from "../components/CustomModal";
-import { Badge } from 'react-native-paper';
-
+import { Badge } from "react-native-paper";
 
 const ApiaryScreen = () => {
   const navigation = useNavigation();
   const [apiaries, setApiaries] = useState([]);
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [selectedApiary, setSelectedApiary] = useState(false);
-  const [isDialogSelectApiaryVisible, setDialogSelectApiaryVisible] = useState(false);
+  const [isDialogSelectApiaryVisible, setDialogSelectApiaryVisible] =
+    useState(false);
   const [apiariesAvailable, setApiariesAvailable] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // toggle menu visible for all the apiaries in the list 
-  const toggleMenu = (apiaryId) => setMenuVisible((prev) => ({ ...prev, [apiaryId]: !prev[apiaryId] }));
+  // toggle menu visible for all the apiaries in the list
+  const toggleMenu = (apiaryId) =>
+    setMenuVisible((prev) => ({ ...prev, [apiaryId]: !prev[apiaryId] }));
 
-  // fetch apiaries form Firestore and update apiaries state 
+  // fetch apiaries form Firestore and update apiaries state
   const fetchApiaries = async () => {
     setIsLoading(true); // display loading ActivityIndicator
     try {
@@ -51,17 +46,20 @@ const ApiaryScreen = () => {
       // querySnapshot.forEach((doc) => {
       //   apiariesData.push({ id: doc.id, ...doc.data() });
       // });
-      for(const doc of querySnapshot.docs){
-        const apiary = {id:doc.id, ...doc.data() }
-        const hivesQuery = query(collection(FIRESTORE_DB, 'hives'), where('apiaryId', '==', apiary.id)); // fetch hives for the apiary
+      for (const doc of querySnapshot.docs) {
+        const apiary = { id: doc.id, ...doc.data() };
+        const hivesQuery = query(
+          collection(FIRESTORE_DB, "hives"),
+          where("apiaryId", "==", apiary.id)
+        ); // fetch hives for the apiary
         const hivesSnapshot = await getDocs(hivesQuery);
         apiary.hivesCount = hivesSnapshot.size; // count of hives for this apiary
 
-        apiariesData.push(apiary)
+        apiariesData.push(apiary);
       }
-      setApiaries(apiariesData); // set state apiaries passing  apiariesData 
+      setApiaries(apiariesData); // set state apiaries passing  apiariesData
 
-      //check if there are no apiaries then display alert modal 
+      //check if there are no apiaries then display alert modal
       if (apiariesData.length === 0) {
         setIsDialogVisible(true);
         setApiariesAvailable(false);
@@ -82,7 +80,7 @@ const ApiaryScreen = () => {
       fetchApiaries();
     }, [])
   );
-  
+
   // check if there are apiaries available but no selected apiary when component updates
   useEffect(() => {
     if (apiariesAvailable && !selectedApiary) {
@@ -90,10 +88,9 @@ const ApiaryScreen = () => {
     }
   }, [apiariesAvailable, selectedApiary, apiaries]);
 
-
   const { setSelectedApiaryId } = useSelectedApiary();
 
-    // dismiss dialog and navigate to ApiaryCreationScreen cose there are no apiaries
+  // dismiss dialog and navigate to ApiaryCreationScreen cose there are no apiaries
   const handleDialogDismiss = () => {
     setIsDialogVisible(false);
     navigation.navigate("ApiaryCreationScreen");
@@ -103,7 +100,7 @@ const ApiaryScreen = () => {
     setDialogSelectApiaryVisible(false);
   };
 
-    // handle the selection of an apiary
+  // handle the selection of an apiary
   const handleSelectApiary = (apiaryId) => {
     setSelectedApiaryId(apiaryId);
     setSelectedApiary(apiaryId);
@@ -127,46 +124,77 @@ const ApiaryScreen = () => {
     <View style={styles.container}>
       {/* show ActivityIndicator before fetch terminates */}
       {isLoading ? (
-        <ActivityIndicator animating={true} color={MD2Colors.yellow700} size="large" />
+        <ActivityIndicator
+          animating={true}
+          color={MD2Colors.yellow700}
+          size="large"
+        />
       ) : (
         <>
-          <Text variant="headlineMedium" style={styles.title}>I TUOI APIARI</Text>
+          <Text variant="headlineMedium" style={styles.title}>
+            I TUOI APIARI
+          </Text>
           <ScrollView contentContainerStyle={styles.contentContainer}>
             {/* map apiaries and render a list with List.Item */}
             {apiaries.map((apiary) => (
               <List.Item
                 key={apiary.id}
-                title={()=>
-                  <Text variant="titleLarge">
-  {apiary.name}
-                  </Text>
-                
-                }
+                title={() => <Text variant="titleLarge">{apiary.name}</Text>}
                 description={() => (
-                 <View style={styles.descriptionContainer}>
-                     <Button compact={true} icon="pin" mode="elevated" style={styles.positionButton} onPress={() => console.log('Pressed')}>
-                        Posizione
-                      </Button>
-                     
-   
-                 <Text variant="titleSmall">Creato il {apiary.creationDateString}</Text> 
-                 </View>
-               
-                )}
+                  <View style={styles.descriptionContainer}>
+                    <Button
+                      compact={true}
+                      icon="pin"
+                      mode="elevated"
+                      style={styles.positionButton}
+                      onPress={() => console.log("Pressed")}  // implement handleClickPosition TODO
+                    >
+                      Posizione
+                    </Button>
+
+                    <Text variant="titleSmall">
+                      Creato il {apiary.creationDateString}
+                    </Text>
+                  </View>
+                )}// clicking on the apiary item list make it selected
                 onPress={() => handleSelectApiary(apiary.id)}
-                style={selectedApiary === apiary.id ? styles.selectedItem : styles.listItem}
+                style={
+                  selectedApiary === apiary.id
+                    ? styles.selectedItem
+                    : styles.listItem
+                }
                 right={() => (
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
-                      {apiary.hivesCount > 0 ? // conditional badge display
-                        <Badge size='28' style={{ backgroundColor: '#48A43F', position: 'absolute', top: -23, right: -10, zIndex: 10, paddingHorizontal: 8 }}>
-                          {apiary.hivesCount} ARNIE  
-                        </Badge>
-                        :
-                        <Badge size='23' style={{ backgroundColor: 'orange', position: 'absolute', top: -23, right: -10, zIndex: 10, paddingHorizontal: 8 }}>
-                          NESSUNA ARNIA  
-                        </Badge>
-                      }
-                      
+                    {apiary.hivesCount > 0 ? ( // conditional badge display
+                      <Badge
+                        size="28"
+                        style={{
+                          backgroundColor: "#48A43F",
+                          position: "absolute",
+                          top: -23,
+                          right: -10,
+                          zIndex: 10,
+                          paddingHorizontal: 8,
+                        }}
+                      >
+                        {apiary.hivesCount} ARNIE
+                      </Badge>
+                    ) : (
+                      <Badge
+                        size="23"
+                        style={{
+                          backgroundColor: "orange",
+                          position: "absolute",
+                          top: -23,
+                          right: -10,
+                          zIndex: 10,
+                          paddingHorizontal: 8,
+                        }}
+                      >
+                        NESSUNA ARNIA
+                      </Badge>
+                    )}
+
                     <Menu
                       visible={menuVisible[apiary.id]}
                       onDismiss={() => toggleMenu(apiary.id)}
@@ -175,12 +203,11 @@ const ApiaryScreen = () => {
                           icon="dots-vertical"
                           onPress={() => toggleMenu(apiary.id)}
                         />
-                        
                       }
                     >
                       <Menu.Item
                         leadingIcon="pencil"
-                        onPress={() => handleUpdateApiary(apiary.id)}   // ********* TODO 
+                        onPress={() => handleUpdateApiary(apiary.id)} // ********* TODO
                         title="Modifica"
                       />
                       <Menu.Item
@@ -204,8 +231,8 @@ const ApiaryScreen = () => {
             </Button>
           </ScrollView>
 
-              {/* two CustomModal for no apiaries found and no apiaries selected */}
-              
+          {/* two CustomModal : no apiaries found and no apiaries selected */}
+
           <CustomModal
             visible={isDialogSelectApiaryVisible}
             onDismiss={handleDialogSelectApiary}
@@ -230,7 +257,6 @@ const ApiaryScreen = () => {
     </View>
   );
 };
-
 
 // Define the styles
 const styles = StyleSheet.create({
@@ -291,12 +317,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   descriptionContainer: {
-    flexDirection: 'column',
-    width: 130
-    
+    flexDirection: "column",
+    width: 130,
   },
   positionButton: {
-    marginVertical: 10  }
+    marginVertical: 10,
+  },
 });
 
 export default ApiaryScreen;
