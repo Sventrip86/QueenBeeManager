@@ -144,10 +144,12 @@ const ApiaryScreen = () => {
                       {/* testing badge component */}
                       {apiary.hivesCount > 0 ?
                         <Badge size='28' style={{ backgroundColor: '#48A43F', position: 'absolute', top: -23, right: -10, zIndex: 10, paddingHorizontal: 8 }}>
-                          {apiary.hivesCount} ARNIE
+                          {apiary.hivesCount} ARNIE  
                         </Badge>
                         :
-                        null
+                        <Badge size='23' style={{ backgroundColor: 'orange', position: 'absolute', top: -23, right: -10, zIndex: 10, paddingHorizontal: 8 }}>
+                          NESSUNA ARNIA  
+                        </Badge>
                       }
                       
                     <Menu
