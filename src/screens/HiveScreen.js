@@ -1,13 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import {
-
-  Button,
-
-  List,
-  Text,
-  Chip,
-} from "react-native-paper";
+import { Button, List, Text, Chip } from "react-native-paper";
 import {
   collection,
   query,
@@ -41,7 +34,12 @@ const HiveScreen = ({ navigation, route }) => {
         const hive = { id: doc.id, ...doc.data() };
 
         // reference the visits subcollection for the hive
-        const visitCollectionRef = collection(FIRESTORE_DB, "hives", hive.id, "visits");
+        const visitCollectionRef = collection(
+          FIRESTORE_DB,
+          "hives",
+          hive.id,
+          "visits"
+        );
         // query to get the last visit based on visitedAt field
         const visitQuery = query(
           visitCollectionRef,
@@ -99,7 +97,7 @@ const HiveScreen = ({ navigation, route }) => {
                 <List.Icon icon="hexagon-multiple" />
                 <Text style={styles.hiveName}>{hive.name}</Text>
               </View>
-
+              {hive.lastVisitData ? (
               <View style={styles.hiveInfo}>
                 <View style={styles.chipsContainer}>
                   <Text>Ultima visita: {hive.lastVisitDate || "NA"}</Text>
@@ -141,6 +139,11 @@ const HiveScreen = ({ navigation, route }) => {
                   </View>
                 </View>
               </View>
+              ) : (
+                <View style={styles.hiveInfo}>
+                <Text style={{ color: '#D32F2F', fontSize: 16 }}>Nessuna visita registrata</Text>
+              </View>
+              )}
             </View>
           </TouchableOpacity>
         ))}

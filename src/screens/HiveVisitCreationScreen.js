@@ -45,7 +45,10 @@ const HiveVisitCreationScreen = ({ route }) => {
         notes,
         userId: FIREBASE_AUTH.currentUser.uid,
         visitedAt: new Date().toISOString(),
+        // visitedAtString: getVisitDate(), // create a new field with formatted date
+
       });
+
       // if the creation is succesfull open the snack then navigate back
       openSnackBar();
       setTimeout(() => {
@@ -55,6 +58,15 @@ const HiveVisitCreationScreen = ({ route }) => {
       console.error(error);
     }
   };
+
+    // getting date formatted as string 
+    const getVisitDate = () => {
+      let today = new Date()
+      const month = today.getMonth()+1
+      const day = today.getDate()
+      const year = today.getFullYear()
+      return `${day}/${month}/${year}`
+    }
 
   return (
     <View style={styles.container}>
