@@ -93,10 +93,13 @@ const HiveScreen = ({ navigation, route }) => {
             style={styles.hiveItem}
           >
             <View style={styles.listItemContainer}>
+        
               <View style={styles.headerContainer}>
                 <List.Icon icon="hexagon-multiple" />
-                <Text style={styles.hiveName}>{hive.name}</Text>
+                <Text style={styles.hiveName}>{hive.name} </Text>  
+                <Text variant='labelMedium' style={styles.creationDate}> Creata il: {hive.formattedCreationDate}</Text>
               </View>
+
               {hive.lastVisitData ? (
               <View style={styles.hiveInfo}>
                 <View style={styles.chipsContainer}>
@@ -191,6 +194,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     alignItems: "center", // icon and text same line
+
     marginBottom: 10,
   },
   lastVisit: {
@@ -214,6 +218,9 @@ const styles = StyleSheet.create({
   chipText: {
     fontSize: 14,
   },
+  creationDate: {
+
+  }
 });
 
 export default HiveScreen;

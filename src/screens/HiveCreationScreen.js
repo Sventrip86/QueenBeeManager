@@ -38,6 +38,7 @@ const HiveCreationScreen = ({ route }) => {
         apiaryId, // Passed from the Apiary screen
         userId: FIREBASE_AUTH.currentUser.uid,
         creationDate: new Date().toISOString(),
+        formattedCreationDate: getCreationDate()
       });
       // Successful creation open snack and then navigate back
       openSnackBar();
@@ -50,6 +51,18 @@ const HiveCreationScreen = ({ route }) => {
       console.error(error);
     }
   };
+
+  
+  // getting date formatted as string 
+  const getCreationDate = () => {
+    let today = new Date()
+    const month = today.getMonth()+1
+    const day = today.getDate()
+    const year = today.getFullYear()
+    return `${day}/${month}/${year}`
+  }
+
+
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
