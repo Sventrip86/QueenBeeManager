@@ -6,6 +6,8 @@ import { collection, addDoc } from "firebase/firestore";
 import { TextInput, Button, Switch, List, Snackbar } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { FIREBASE_AUTH } from "../config/firebaseConfig";
+import { getCreationDate } from '../utils/formattedDate'
+
 
 const HiveVisitCreationScreen = ({ route }) => {
   const apiaryId = route.params?.apiaryId;
@@ -45,28 +47,22 @@ const HiveVisitCreationScreen = ({ route }) => {
         notes,
         userId: FIREBASE_AUTH.currentUser.uid,
         visitedAt: new Date().toISOString(),
-        // visitedAtString: getVisitDate(), // create a new field with formatted date
+        // formattedCreationDate: getCreationDate()
 
       });
 
       // if the creation is succesfull open the snack then navigate back
       openSnackBar();
+
       setTimeout(() => {
-        navigation.navigate("Arnie", { apiaryId });
+        navigation.navigate("Arnie", { apiaryId });  
       }, 2000);
     } catch (error) {
       console.error(error);
     }
   };
 
-    // getting date formatted as string 
-    const getVisitDate = () => {
-      let today = new Date()
-      const month = today.getMonth()+1
-      const day = today.getDate()
-      const year = today.getFullYear()
-      return `${day}/${month}/${year}`
-    }
+
 
   return (
     <View style={styles.container}>

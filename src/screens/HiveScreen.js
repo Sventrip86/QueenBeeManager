@@ -68,6 +68,7 @@ const HiveScreen = ({ navigation, route }) => {
   // screen focus rerender and refetch just if apiaryId changes
   useFocusEffect(
     useCallback(() => {
+   
       fetchHives();
       console.log("fetching");
       // clean up function ?? TODO ??
@@ -103,7 +104,7 @@ const HiveScreen = ({ navigation, route }) => {
               {hive.lastVisitData ? (
               <View style={styles.hiveInfo}>
                 <View style={styles.chipsContainer}>
-                  <Text>Ultima visita: {hive.lastVisitDate || "NA"}</Text>
+                  <Text>Ultima visita: {hive.lastVisitData?.formattedCreationDate || "NA"}</Text>
 
                   <View style={styles.lastVisit}>
                     <Chip

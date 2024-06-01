@@ -13,6 +13,8 @@ import {
   HelperText,
 } from "react-native-paper";
 import MapView, { Marker } from "react-native-maps";
+import { getCreationDate } from '../utils/formattedDate'
+
 
 import * as Location from "expo-location";
 
@@ -95,16 +97,6 @@ const ApiaryCreationScreen = () => {
   const hasError = () => {
     return !apiaryName
   }
-
-  // getting date formatted as string 
-  const getCreationDate = () => {
-    let today = new Date()
-    const month = today.getMonth()
-    const day = today.getDate()
-    const year = today.getFullYear()
-    return `${day}/${month}/${year}`
-  }
-
 
 
   return (

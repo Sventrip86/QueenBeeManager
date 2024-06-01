@@ -4,6 +4,7 @@ import { TextInput, Button, Switch, List, Snackbar } from 'react-native-paper';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../config/firebaseConfig';
 import { collection, addDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import { getCreationDate } from '../utils/formattedDate'
 
 const HiveCreationScreen = ({ route }) => {
   const [name, setName] = useState('');
@@ -53,15 +54,6 @@ const HiveCreationScreen = ({ route }) => {
   };
 
   
-  // getting date formatted as string 
-  const getCreationDate = () => {
-    let today = new Date()
-    const month = today.getMonth()+1
-    const day = today.getDate()
-    const year = today.getFullYear()
-    return `${day}/${month}/${year}`
-  }
-
 
 
   return (
