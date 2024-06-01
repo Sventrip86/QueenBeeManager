@@ -103,7 +103,6 @@ const ApiaryScreen = () => {
   // handle the selection of an apiary
   const handleSelectApiary = (apiaryId) => {
     setSelectedApiaryId(apiaryId);
-    setSelectedApiary(apiaryId);
     navigation.navigate("HivesTab", { screen: "Arnie", params: { apiaryId } });
   };
 

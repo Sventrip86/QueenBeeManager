@@ -89,6 +89,7 @@ const HiveScreen = ({ navigation, route }) => {
             onPress={() =>
               navigation.navigate("HiveVisitCreationScreen", {
                 hiveId: hive.id,
+                apiaryId
               })
             }
             style={styles.hiveItem}

@@ -10,9 +10,7 @@ import { getCreationDate } from '../utils/formattedDate'
 
 
 const HiveVisitCreationScreen = ({ route }) => {
-  const apiaryId = route.params?.apiaryId;
-
-  const { hiveId } = route.params;
+  const { hiveId, apiaryId } = route.params;
   const [eggs, setEggs] = useState(false);
   const [queen, setQueen] = useState(false);
   const [covata, setCovata] = useState("");
@@ -27,6 +25,8 @@ const HiveVisitCreationScreen = ({ route }) => {
   const onDismissSnackBar = () => setVisibleSnack(false);
 
   const handleSubmit = async () => {
+    console.log('Navigating with apiaryId:', apiaryId);
+
     // check for hive
     if (!hiveId) {
       console.error("No hiveId provided");
@@ -47,9 +47,11 @@ const HiveVisitCreationScreen = ({ route }) => {
         notes,
         userId: FIREBASE_AUTH.currentUser.uid,
         visitedAt: new Date().toISOString(),
-        // formattedCreationDate: getCreationDate()
+        formattedCreationDate: getCreationDate()
 
       });
+      console.log('Navigating with apiaryId:', apiaryId);
+
 
       // if the creation is succesfull open the snack then navigate back
       openSnackBar();
